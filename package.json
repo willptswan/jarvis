@@ -1,0 +1,34 @@
+{
+  "name": "@willptswan/jarvis",
+  "version": "1.0.0",
+  "description": "Jarvis is a continually growing CLI that helps with routine tasks and speeds up a few things.",
+  "author": "Will Swan <will@willswan.com> (https://willswan.com)",
+  "keywords": [
+    "jarvis",
+    "react",
+    "git",
+    "s3",
+    "google app engine",
+    "gae",
+    "configs",
+    "github",
+    "search"
+  ],
+  "bugs": {
+    "url": "https://github.com/willptswan/jarvis/issues"
+  },
+  "homepage": "https://github.com/willptswan/jarvis",
+  "main": "index.js",
+  "bin": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-willptswan:willptswan/jarvis.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.475.0",
+    "commander": "^2.20.0",
+    "data-store": "^3.1.0",
+    "prompt-async": "^0.9.9"
+  }
+}

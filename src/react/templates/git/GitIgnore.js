@@ -1,4 +1,7 @@
-# Non Template Ignores
+exports.template = () => {
+	return `# NON TEMPLATE PATHS
+.DS_Store
+build
 .eslintrc
 
 # Logs
@@ -62,3 +65,5 @@ typings/
 
 # next.js build output
 .next
+`;
+};
