@@ -216,6 +216,8 @@ jarvis site-search gh // Searches GitHub
 
 ## Near-Future Plans
 
+- Upload files to AWS S3
+- Support for sass and css in the React commands
 - Push to different branches in a GitHub repo
 - Some cool handy Firebase things
 - Handle time tracking
