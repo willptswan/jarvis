@@ -1,5 +1,9 @@
 # Change Log
 
+#### V1.0.4
+
+- Fixed wrong version number
+
 #### V1.0.3
 
 - Fixed git-clone
