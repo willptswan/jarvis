@@ -188,12 +188,28 @@ exports.new = async () => {
 	await Config.setToStore(Constants.gcpConfigsKey, config, true);
 	Log.standard('Stored config data', 'success');
 
+	// Log in
+	await loginToGcloud();
 
 };
 
 /*
  * Helper Functions
 */
+
+// Log in to gcloud
+async function loginToGcloud() {
+
+	// Log logging in
+	Log.spaced('Logging into gcloud...', 'info');
+
+	// Log in
+	const { stdout, stderr } = await exec('gcloud auth login --quiet');
+
+	// Log success
+	Log.standard('Logged into gcloud', 'success');
+
+}
 
 // Create config in the gcloud cli
 async function createConfig(config) {

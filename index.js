@@ -17,6 +17,7 @@ const GitPush = require('./src/git/GitPush');
 const ReactInit = require('./src/react/ReactInit');
 const ReactCreate = require('./src/react/ReactCreate');
 const ReactDeploy = require('./src/react/ReactDeploy');
+const ReactBuild = require('./src/react/ReactBuild');
 const GAEDeploy = require('./src/gcp/GAEDeploy');
 const S3BundleUpload = require('./src/aws/s3/S3BundleUpload');
 const SiteOpen = require('./src/site/SiteOpen');
@@ -129,6 +130,15 @@ Program
 	.command('react-deploy <version>')
 	.action((version) => {
 		ReactDeploy.handler(version).catch((err) => {
+			Log.standard(err, 'error');
+		});
+	});
+
+// React-build
+Program
+	.command('react-build')
+	.action(() => {
+		ReactBuild.handler().catch((err) => {
 			Log.standard(err, 'error');
 		});
 	});

@@ -1,5 +1,5 @@
 // App version
-exports.version = '1.0.0';
+exports.version = '1.0.2';
 
 // Blue log
 exports.blueLog = '\x1b[36m%s\x1b[0m';
@@ -81,6 +81,7 @@ exports.validCommands = [
 	'react-init',
 	'react-create',
 	'react-deploy',
+	'react-build',
 	'git-push',
 	'git-pull',
 	'git-clone',

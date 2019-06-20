@@ -133,6 +133,12 @@ e.g.
 jarvis react-deploy 1.0.0
 ```
 
+#### React Build
+Build and run a project in the dev environment.
+```
+jarvis react-build
+```
+
 #### Git Push
 Add, commit, and push changes to GitHub.
 ```

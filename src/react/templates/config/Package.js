@@ -18,7 +18,8 @@ exports.template = async (projectName) => {
   "scripts": {
     "test": "jest",
     "build": "NODE_ENV=development webpack-dev-server --env.dev",
-    "build:prod": "NODE_ENV=production webpack --env.prod -p"
+    "build:prod": "NODE_ENV=production webpack --env.prod -p",
+		"start": "node server.js"
   },
   "devDependencies": {
     "@babel/core": "latest",
@@ -45,6 +46,7 @@ exports.template = async (projectName) => {
     "webpack-dev-server": "latest"
   },
   "dependencies": {
+		"express": "latest",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",

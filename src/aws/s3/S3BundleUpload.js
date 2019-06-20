@@ -6,10 +6,12 @@ const Config = require('../../config/Config');
 const Prompt = require('../../utils/Prompt');
 const Files = require('../../utils/Files');
 
-exports.handler = async () => {
+exports.handler = async (ignoreConfigCheck = false) => {
 
-	// Check active s3 config
-	await Config.checkActiveConfig('s3');
+	if (!ignoreConfigCheck) {
+		// Check active s3 config
+		await Config.checkActiveConfig('s3');
+	}
 
 	// Get the active s3 config
 	let config = await Config.getActive('s3');

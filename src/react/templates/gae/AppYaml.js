@@ -3,7 +3,7 @@ exports.template = () => {
 
 handlers:
 
-- url: index.html
+- url: /.*
   script: auto
   secure: always
 

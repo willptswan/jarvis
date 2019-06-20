@@ -111,9 +111,6 @@ exports.update = async () => {
 // New Git Config
 exports.new = async () => {
 
-	// Check that we are in a git directory
-	await inGitDirectory(true);
-
 	// De-activate all git configs
 	await Config.deactivateAll('git');
 
@@ -178,8 +175,20 @@ exports.new = async () => {
 	// Log stored
 	Log.standard('Stored git config', 'success');
 
-	// Activate config
-	await exports.activate(config.id);
+	// Ask if we want to activate the new config
+	response = await Prompt.show({
+		name: 'answer',
+		message: `Do you want to activate ${config.id}? Y/n`,
+		required: true
+	});
+
+	// Check answer
+	if (response.answer.toLowerCase === 'y') {
+
+		// Activate config
+		await exports.activate(config.id);
+
+	}
 
 };
 

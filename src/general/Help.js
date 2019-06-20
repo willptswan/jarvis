@@ -82,6 +82,11 @@ exports.handler = () => {
 	Log.tabbed('Deploy a react project to Google App Engine', 'notice');
 	Log.spacer();
 
+	// React-build
+	Log.tabbed('react-build', 'info');
+	Log.tabbed('Build and run a project in the dev environment', 'notice');
+	Log.spacer();
+
 	/*
 	 * Git
 	*/

@@ -7,10 +7,10 @@ const exec = util.promisify(require('child_process').exec);
 
 exports.handler = async (version) => {
 
-	// Check active s3 config
+	// Check active gcp config
 	await Config.checkActiveConfig('gcp');
 
-	// Get the active s3 config
+	// Get the active gcp config
 	let config = await Config.getActive('gcp');
 
 	// Deploy

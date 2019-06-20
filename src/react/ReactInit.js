@@ -5,6 +5,7 @@ const Prompt = require('../utils/Prompt');
 const GitInit = require('../git/GitInit');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const ReactBuild = require('./ReactBuild');
 
 // Templates
 const Container = require('./templates/app/Container');
@@ -18,6 +19,7 @@ const HomeIndex = require('./templates/app/HomeIndex');
 const HomeLess = require('./templates/app/HomeLess');
 const HomeTest = require('./templates/app/HomeTest');
 const IndexHTML = require('./templates/app/IndexHTML');
+const ServerJS = require('./templates/app/ServerJS');
 const IndexLess = require('./templates/app/IndexLess');
 const MainIndex = require('./templates/app/MainIndex');
 const PageNotFound = require('./templates/app/PageNotFound');
@@ -224,6 +226,9 @@ async function createAppFiles(projectName) {
 	// Create index.html
 	await Files.create('./index.html', IndexHTML.template());
 
+	// Create server.js
+	await Files.create('./server.js', ServerJS.template());
+
 	// Create ./src/index.js
 	await Files.create('./src/index.js', MainIndex.template());
 
@@ -387,20 +392,7 @@ async function buildAndRun(projectName) {
 	// Check if answer was yes
 	if (response.answer.toLowerCase() === 'y') {
 
-		// Log build and running
-		Log.spaced(`Building and running ${projectName}...`, 'info');
-
-		// Build and run
-		// Note: This is mac specific
-		const { stdout, stderr } = await exec(`osascript -e 'tell application "Terminal" to do script "cd ${process.cwd()}; npm run build;"'`);
-
-		// Check that there was no error
-		if (stderr !== "" && stderr !== null && typeof(stderr) !== 'undefined') {
-			Log.standard(stderr, 'error');
-		} else {
-			Log.standard(`Webpack is now serving and watching ${projectName}`, 'success');
-			Log.standard('A new terminal window has been opened for this process', 'notice');
-		}
+		await ReactBuild.handler();
 
 	}
 
