@@ -1,5 +1,9 @@
 # Change Log
 
+#### V1.0.5
+
+- Fixed git-clone success message
+
 #### V1.0.4
 
 - Fixed wrong version number

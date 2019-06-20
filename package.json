@@ -1,6 +1,6 @@
 {
   "name": "@willptswan/jarvis",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Jarvis is a continually growing CLI that helps with routine tasks and speeds up a few things.",
   "author": "Will Swan <will@willswan.com> (https://willswan.com)",
   "keywords": [

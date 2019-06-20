@@ -35,7 +35,7 @@ async function cloneRepo(config) {
 	if (stderr.includes('Cloning into')) {
 
 		// Log success
-		Log.standard(`Cloned ${repoName}`, 'success');
+		Log.standard(`Cloned ${config.repo}`, 'success');
 
 	} else {
 		throw stderr;

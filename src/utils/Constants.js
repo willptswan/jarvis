@@ -1,5 +1,5 @@
 // App version
-exports.version = '1.0.4';
+exports.version = '1.0.5';
 
 // Blue log
 exports.blueLog = '\x1b[36m%s\x1b[0m';
