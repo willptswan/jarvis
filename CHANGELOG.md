@@ -1,5 +1,9 @@
 # Change Log
 
+#### V1.0.3
+
+- Fixed git-clone
+
 #### V1.0.2
 
 - Fixed issues with deploying to Google App Engine (changes in react-init & react-deploy)
