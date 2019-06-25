@@ -2,31 +2,35 @@
 const Log = require('../utils/Log');
 const Files = require('../utils/Files');
 const Prompt = require('../utils/Prompt');
+const Settings = require('../utils/Settings');
 const GitInit = require('../git/GitInit');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const ReactBuild = require('./ReactBuild');
+const EBInit = require('../aws/eb/EBInit');
 
 // Templates
 const Container = require('./templates/app/Container');
 const ContainerIndex = require('./templates/app/ContainerIndex');
-const ContainerLess = require('./templates/app/ContainerLess');
+const ContainerStyles = require('./templates/app/ContainerStyles');
 const ContainerTest = require('./templates/app/ContainerTest');
 const Head = require('./templates/app/Head');
 const HeadIndex = require('./templates/app/HeadIndex');
 const Home = require('./templates/app/Home');
 const HomeIndex = require('./templates/app/HomeIndex');
-const HomeLess = require('./templates/app/HomeLess');
+const HomeStyles = require('./templates/app/HomeStyles');
 const HomeTest = require('./templates/app/HomeTest');
 const IndexHTML = require('./templates/app/IndexHTML');
 const ServerJS = require('./templates/app/ServerJS');
 const IndexLess = require('./templates/app/IndexLess');
+const IndexSCSS = require('./templates/app/IndexSCSS');
 const MainIndex = require('./templates/app/MainIndex');
 const PageNotFound = require('./templates/app/PageNotFound');
 const PageNotFoundIndex = require('./templates/app/PageNotFoundIndex');
-const PageNotFoundLess = require('./templates/app/PageNotFoundLess');
+const PageNotFoundStyles = require('./templates/app/PageNotFoundStyles');
 const PageNotFoundTest = require('./templates/app/PageNotFoundTest');
 const Variables = require('./templates/app/Variables');
+const VariablesSCSS = require('./templates/app/VariablesSCSS');
 const BabelRC = require('./templates/config/BabelRC');
 const Enzyme = require('./templates/config/Enzyme');
 const ESLintRC = require('./templates/config/ESLintRC');
@@ -54,23 +58,29 @@ exports.handler = async (projectName) => {
 	// Log starting initialising
 	Log.spaced(`Initialising react project ${projectName}...`, 'info');
 
+	// Get settings
+	let settings = await Settings.get();
+
 	// Create folders
 	await createFolders(projectName);
 
 	// Create config files
-	await createConfigFiles(projectName);
+	await createConfigFiles(projectName, settings.useSCSS);
 
 	// Create git files
 	await createGitFiles(projectName);
 
-	// Create gae files
-	await createGaeFiles(projectName);
-
 	// Create app files
-	await createAppFiles(projectName);
+	await createAppFiles(projectName, settings.useSCSS);
 
 	// Create util files
 	await createUtilFiles(projectName);
+
+	// Create gae files
+	await createGaeFiles(projectName);
+
+	// Create eb files
+	await createEBFiles(projectName);
 
 	// Execute package installs
 	await executePackageInstalls(projectName);
@@ -142,7 +152,7 @@ async function createFolders(projectName) {
 }
 
 // Create config files
-async function createConfigFiles(projectName) {
+async function createConfigFiles(projectName, useSCSS) {
 
 	// Log creating config files
 	Log.spaced('Creating config files...', 'info');
@@ -160,17 +170,17 @@ async function createConfigFiles(projectName) {
 	await Files.create('./src/enzyme.js', Enzyme.template());
 
 	// Create package.json
-	let packageTemplate = await Package.template(projectName);
+	let packageTemplate = await Package.template(projectName, useSCSS);
 	await Files.create('./package.json', packageTemplate);
 
 	// Create webpack.config.js
 	await Files.create('./webpack.config.js', WebpackConfig.template());
 
 	// Create webpack.dev.config.js
-	await Files.create('./webpack.dev.config.js', WebpackDevConfig.template());
+	await Files.create('./webpack.dev.config.js', WebpackDevConfig.template(useSCSS));
 
 	// Create webpack.prod.config.js
-	await Files.create('./webpack.prod.config.js', WebpackProdConfig.template());
+	await Files.create('./webpack.prod.config.js', WebpackProdConfig.template(useSCSS));
 
 }
 
@@ -197,7 +207,7 @@ async function createGaeFiles(projectName) {
 	// Ask if this project will be deployed to google app engine
 	let response = await Prompt.show({
 		name: 'answer',
-		message: 'Will this project be deployed on google app engine? Y/n',
+		message: 'Will this project be deployed on Google App Engine? Y/n',
 		required: true
 	});
 
@@ -217,8 +227,27 @@ async function createGaeFiles(projectName) {
 
 }
 
+// Create elastic beanstalk files
+async function createEBFiles(projectName) {
+
+	// Ask if this project will be deployed to elastic beanstalk
+	let response = await Prompt.show({
+		name: 'answer',
+		message: 'Will this project be deployed on AWS Elastic Beanstalk? Y/n',
+		required: true
+	});
+
+	// Check if answer was yes
+	if (response.answer.toLowerCase() === 'y') {
+
+		await EBInit.handler(projectName, false);
+
+	}
+
+}
+
 // Create app files
-async function createAppFiles(projectName) {
+async function createAppFiles(projectName, useSCSS) {
 
 	// Log creating app files
 	Log.spaced('Creating app files...', 'info');
@@ -230,39 +259,60 @@ async function createAppFiles(projectName) {
 	await Files.create('./server.js', ServerJS.template());
 
 	// Create ./src/index.js
-	await Files.create('./src/index.js', MainIndex.template());
+	await Files.create('./src/index.js', MainIndex.template(useSCSS));
 
-	// Create ./src/index.less
-	await Files.create('./src/index.less', IndexLess.template());
+	if (useSCSS) {
 
-	// Create ./src/variables.less
-	await Files.create('./src/variables.less', Variables.template());
+		// Create ./src/index.scss
+		await Files.create('./src/index.scss', IndexSCSS.template());
+
+		// Create ./src/variables.scss
+		await Files.create('./src/variables.scss', VariablesSCSS.template());
+
+	} else {
+
+		// Create ./src/index.less
+		await Files.create('./src/index.less', IndexLess.template());
+
+		// Create ./src/variables.less
+		await Files.create('./src/variables.less', Variables.template());
+
+	}
 
 	// Create Container Component
-	await createContainerComponent(projectName);
+	await createContainerComponent(projectName, useSCSS);
 
 	// Create Head Component
 	await createHeadComponent(projectName);
 
 	// Create Home view component
-	await createHomeViewComponent(projectName);
+	await createHomeViewComponent(projectName, useSCSS);
 
 	// Create PageNotFound view component
-	await createPageNotFoundViewComponent(projectName);
+	await createPageNotFoundViewComponent(projectName, useSCSS);
 
 }
 
 // Create container component
-async function createContainerComponent(projectName) {
+async function createContainerComponent(projectName, useSCSS) {
 
 	// Create ./src/components/Container/Container.js
-	await Files.create('./src/components/Container/Container.js', Container.template());
+	await Files.create('./src/components/Container/Container.js', Container.template(useSCSS));
 
 	// Create ./src/components/Container/Container.test.js
-	await Files.create('./src/components/Container/Container.test.js', ContainerTest.template());
+	await Files.create('./src/components/Container/Container.test.js', ContainerTest.template(useSCSS));
 
-	// Create ./src/components/Container/container.less
-	await Files.create('./src/components/Container/container.less', ContainerLess.template());
+	if (useSCSS) {
+
+		// Create ./src/components/Container/container.scss
+		await Files.create('./src/components/Container/container.scss', ContainerStyles.template());
+
+	} else {
+
+		// Create ./src/components/Container/container.less
+		await Files.create('./src/components/Container/container.less', ContainerStyles.template());
+
+	}
 
 	// Create ./src/components/Container/index.js
 	await Files.create('./src/components/Container/index.js', ContainerIndex.template());
@@ -281,16 +331,25 @@ async function createHeadComponent(projectName) {
 }
 
 // Create home view component
-async function createHomeViewComponent(projectName) {
+async function createHomeViewComponent(projectName, useSCSS) {
 
 	// Create ./src/components/views/Home/Home.js
-	await Files.create('./src/components/views/Home/Home.js', Home.template());
+	await Files.create('./src/components/views/Home/Home.js', Home.template(useSCSS));
 
 	// Create ./src/components/views/Home/Home.test.js
-	await Files.create('./src/components/views/Home/Home.test.js', HomeTest.template());
+	await Files.create('./src/components/views/Home/Home.test.js', HomeTest.template(useSCSS));
 
-	// Create ./src/components/views/Home/home.less
-	await Files.create('./src/components/views/Home/home.less', HomeLess.template());
+	if (useSCSS) {
+
+		// Create ./src/components/views/Home/home.scss
+		await Files.create('./src/components/views/Home/home.scss', HomeStyles.template());
+
+	} else {
+
+		// Create ./src/components/views/Home/home.less
+		await Files.create('./src/components/views/Home/home.less', HomeStyles.template());
+
+	}
 
 	// Create ./src/components/views/Home/index.js
 	await Files.create('./src/components/views/Home/index.js', HomeIndex.template());
@@ -298,16 +357,25 @@ async function createHomeViewComponent(projectName) {
 }
 
 // Create pagenotfound view component
-async function createPageNotFoundViewComponent(projectName) {
+async function createPageNotFoundViewComponent(projectName, useSCSS) {
 
 	// Create ./src/components/views/PageNotFound/PageNotFound.js
-	await Files.create('./src/components/views/PageNotFound/PageNotFound.js', PageNotFound.template());
+	await Files.create('./src/components/views/PageNotFound/PageNotFound.js', PageNotFound.template(useSCSS));
 
 	// Create ./src/components/views/PageNotFound/PageNotFound.test.js
-	await Files.create('./src/components/views/PageNotFound/PageNotFound.test.js', PageNotFoundTest.template());
+	await Files.create('./src/components/views/PageNotFound/PageNotFound.test.js', PageNotFoundTest.template(useSCSS));
 
-	// Create ./src/components/views/PageNotFound/pagenotfound.less
-	await Files.create('./src/components/views/PageNotFound/pagenotfound.less', PageNotFoundLess.template());
+	if (useSCSS) {
+
+		// Create ./src/components/views/PageNotFound/pagenotfound.scss
+		await Files.create('./src/components/views/PageNotFound/pagenotfound.scss', PageNotFoundStyles.template());
+
+	} else {
+
+		// Create ./src/components/views/PageNotFound/pagenotfound.less
+		await Files.create('./src/components/views/PageNotFound/pagenotfound.less', PageNotFoundStyles.template());
+
+	}
 
 	// Create ./src/components/views/PageNotFound/index.js
 	await Files.create('./src/components/views/PageNotFound/index.js', PageNotFoundIndex.template());

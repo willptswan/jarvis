@@ -1,6 +1,6 @@
 {
   "name": "@willptswan/jarvis",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Jarvis is a continually growing CLI that helps with routine tasks and speeds up a few things.",
   "author": "Will Swan <will@willswan.com> (https://willswan.com)",
   "keywords": [
@@ -12,7 +12,8 @@
     "gae",
     "configs",
     "github",
-    "search"
+    "search",
+    "elastic beanstalk"
   ],
   "bugs": {
     "url": "https://github.com/willptswan/jarvis/issues"
@@ -29,6 +30,8 @@
     "aws-sdk": "^2.475.0",
     "commander": "^2.20.0",
     "data-store": "^3.1.0",
+    "latest-version": "^5.1.0",
+    "mime": "^2.4.4",
     "prompt-async": "^0.9.9"
   }
 }

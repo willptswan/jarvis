@@ -1,6 +1,13 @@
-exports.template = () => {
+exports.template = (useSCSS) => {
+
+	// Work out style extension
+	let styleExtension = 'less';
+	if (useSCSS) {
+		styleExtension = 'scss';
+	}
+
 	return `// Styles
-import styles from './pagenotfound.less';
+import styles from './pagenotfound.${styleExtension}';
 
 // Packages
 import React from 'react';

@@ -39,27 +39,27 @@ exports.handler = () => {
 
 	// Config-new
 	Log.tabbed('config-new <type>', 'info');
-	Log.tabbed('Create and store a new config, valid arguments are git, gcp, s3', 'notice');
+	Log.tabbed('Create and store a new config, valid arguments are git, gcp, s3, eb', 'notice');
 	Log.spacer();
 
 	// Config-delete
 	Log.tabbed('config-delete <type>', 'info');
-	Log.tabbed('Delete a stored config, valid arguments are git, gcp, s3', 'notice');
+	Log.tabbed('Delete a stored config, valid arguments are git, gcp, s3, eb', 'notice');
 	Log.spacer();
 
 	// Config-update
 	Log.tabbed('config-update <type>', 'info');
-	Log.tabbed('Update a stored config, valid arguments are git, gcp, s3', 'notice');
+	Log.tabbed('Update a stored config, valid arguments are git, gcp, s3, eb', 'notice');
 	Log.spacer();
 
 	// Config-switch
 	Log.tabbed('config-switch <type>', 'info');
-	Log.tabbed('Switch between stored configs, valid arguments are git, gcp, s3', 'notice');
+	Log.tabbed('Switch between stored configs, valid arguments are git, gcp, s3, eb', 'notice');
 	Log.spacer();
 
 	// Config-view
 	Log.tabbed('config-view <type>', 'info');
-	Log.tabbed('View all stored configs, valid arguments are git, gcp, s3, all', 'notice');
+	Log.tabbed('View all stored configs, valid arguments are git, gcp, s3, eb, all', 'notice');
 	Log.spacer();
 
 	/*
@@ -70,16 +70,18 @@ exports.handler = () => {
 	// React-init
 	Log.tabbed('react-init <projectName>', 'info');
 	Log.tabbed('Initialise a complete boilerplate react project', 'notice');
+	Log.tabbed('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 'notice');
 	Log.spacer();
 
 	// React-create
 	Log.tabbed('react-create <componentName>', 'info');
 	Log.tabbed('Create a new boilerplate react component', 'notice');
+	Log.tabbed('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 'notice');
 	Log.spacer();
 
 	// React-deploy
-	Log.tabbed('react-deploy <version>', 'info');
-	Log.tabbed('Deploy a react project to Google App Engine', 'notice');
+	Log.tabbed('react-deploy <platform> <version>', 'info');
+	Log.tabbed('Deploy a react project, valid platforms are gae, eb', 'notice');
 	Log.spacer();
 
 	// React-build
@@ -129,7 +131,23 @@ exports.handler = () => {
 
 	// S3-bundle-upload
 	Log.tabbed('s3-bundle-upload', 'info');
-	Log.tabbed('Upload the css and js bundle for a project to s3', 'notice');
+	Log.tabbed('Upload the css and js bundle for a project to S3', 'notice');
+	Log.spacer();
+
+	// S3-upload
+	Log.tabbed('s3-upload <filePath> -p', 'info');
+	Log.tabbed('Upload a file to S3, multiple files can be uploaded by putting them in a folder', 'notice');
+	Log.tabbed('Add -p to the command if you are passing the path to a folder but only want the contents of the folder to be uploaded', 'notice');
+	Log.spacer();
+
+	// Eb-init
+	Log.tabbed('eb-init <applicationName>', 'info');
+	Log.tabbed('Initialise an Elastic Beanstalk application and environment', 'notice');
+	Log.spacer();
+
+	// Eb-deploy
+	Log.tabbed('eb-deploy <version>', 'info');
+	Log.tabbed('Deploy an application to Elastic Beanstalk', 'notice');
 	Log.spacer();
 
 	/*
@@ -147,6 +165,8 @@ exports.handler = () => {
 	Log.tabbed('	g - Google', 'notice');
 	Log.tabbed('	awe - Awesome', 'notice');
 	Log.tabbed('	gh - GitHub', 'notice');
+	Log.tabbed('	css - CSS Tricks', 'notice');
+	Log.tabbed('	m - Medium', 'notice');
 	Log.spacer();
 
 	// Site-search
@@ -157,8 +177,28 @@ exports.handler = () => {
 	Log.tabbed('	npm - NPM', 'notice');
 	Log.tabbed('	g - Google', 'notice');
 	Log.tabbed('	gh - GitHub', 'notice');
+	Log.tabbed('	css - CSS Tricks', 'notice');
+	Log.tabbed('	m - Medium', 'notice');
 	Log.spacer();
 
+	/*
+	 * Settings
+	*/
+	Log.standard('Settings:');
+
+	// Settings-update
+	Log.tabbed('settings-update', 'info');
+	Log.tabbed('Update the settings', 'notice');
+	Log.spacer();
+
+	// Settings-reset
+	Log.tabbed('settings-reset', 'info');
+	Log.tabbed('Reset settings to default values', 'notice');
+	Log.spacer();
+
+	// Settings-view
+	Log.tabbed('settings-view', 'info');
+	Log.tabbed('View all of your current settings', 'notice');
 	Log.spacer();
 
 	// Spacer at the end

@@ -1,14 +1,18 @@
 // Imports
 const Log = require('../utils/Log');
 const Files = require('../utils/Files');
+const Settings = require('../utils/Settings');
 
 // Templates
 const Component = require('./templates/component/Component');
 const ComponentTest = require('./templates/component/ComponentTest');
-const ComponentLess = require('./templates/component/ComponentLess');
+const ComponentStyles = require('./templates/component/ComponentStyles');
 const ComponentIndex = require('./templates/component/ComponentIndex');
 
 exports.handler = async (componentName) => {
+
+	// Get settings
+	let settings = await Settings.get();
 
 	// Log creating component
 	Log.spaced(`Creating ${componentName}...`, 'info');
@@ -17,13 +21,22 @@ exports.handler = async (componentName) => {
 	await Files.makeDir(`./${componentName}`);
 
 	// Create component
-	await Files.create(`./${componentName}/${componentName}.js`, Component.template(componentName, convertNameToCamel(componentName)));
+	await Files.create(`./${componentName}/${componentName}.js`, Component.template(componentName, convertNameToCamel(componentName), settings.useSCSS));
 
 	// Create tests
-	await Files.create(`./${componentName}/${componentName}.test.js`, ComponentTest.template(componentName, convertNameToCamel(componentName)));
+	await Files.create(`./${componentName}/${componentName}.test.js`, ComponentTest.template(componentName, convertNameToCamel(componentName), settings.useSCSS));
 
-	// Create less
-	await Files.create(`./${componentName}/${componentName.toLowerCase()}.less`, ComponentLess.template(convertNameToCamel(componentName)));
+	if (settings.useSCSS) {
+
+		// Create SCSS
+		await Files.create(`./${componentName}/${componentName.toLowerCase()}.scss`, ComponentStyles.template(convertNameToCamel(componentName)));
+
+	} else {
+
+		// Create less
+		await Files.create(`./${componentName}/${componentName.toLowerCase()}.less`, ComponentStyles.template(convertNameToCamel(componentName)));
+
+	}
 
 	// Create index
 	await Files.create(`./${componentName}/index.js`, ComponentIndex.template(componentName));

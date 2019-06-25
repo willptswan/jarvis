@@ -72,7 +72,11 @@ exports.update = async () => {
 	config = await Config.chooseConfig('git');
 
 	// Save the old config
-	let oldConfig = config;
+	let oldConfig = {};
+	oldConfig.id = config.id;
+	oldConfig.username = config.username;
+	oldConfig.email = config.email;
+	oldConfig.personalAccessToken = config.personalAccessToken;
 
 	// Declare what keys can be updated
 	let keys = ['username', 'email', 'personalAccessToken'];
@@ -183,7 +187,7 @@ exports.new = async () => {
 	});
 
 	// Check answer
-	if (response.answer.toLowerCase === 'y') {
+	if (response.answer.toLowerCase() === 'y') {
 
 		// Activate config
 		await exports.activate(config.id);
@@ -314,7 +318,7 @@ async function inGitDirectory(abort) {
 async function addNewSSHConfig(config) {
 
 	// Get root user path
-	let rootPath = await Config.getRootPath();
+	let rootPath = Constants.rootUserPath();
 
 	// Create ssh folder
 	await createSSHFolder(rootPath);
@@ -331,7 +335,7 @@ async function addNewSSHConfig(config) {
 async function uploadGitHubSSH(config) {
 
 	// Get root user path
-	let rootPath = await Config.getRootPath();
+	let rootPath = Constants.rootUserPath();
 
 	// Log uploading public ssh key to github
 	Log.spaced('Uploading public SSH key to GitHub...', 'info');
@@ -440,7 +444,7 @@ async function createSSHFolder(rootPath) {
 async function deleteSSHConfig(config) {
 
 	// Get root user path
-	let rootPath = await Config.getRootPath();
+	let rootPath = Constants.rootUserPath();
 
 	// Log deleting ssh keys
 	Log.spaced('Deleting SSH keys...', 'info');

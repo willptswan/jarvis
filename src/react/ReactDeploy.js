@@ -7,8 +7,14 @@ const GAEDeploy = require('../gcp/GAEDeploy');
 const S3BundleUpload = require('../aws/s3/S3BundleUpload');
 const Config = require('../config/Config');
 const Files = require('../utils/Files');
+const EBDeploy = require('../aws/eb/EBDeploy');
 
-exports.handler = async (version) => {
+exports.handler = async (version, platform) => {
+
+	// Check that the platform is valid
+	if (platform !== 'eb' && platform !== 'gae') {
+		throw 'Invalid platform';
+	}
 
 	// Run tests
 	await runTests();
@@ -22,8 +28,17 @@ exports.handler = async (version) => {
 	// Push to github
 	await GitPush.handler(version);
 
-	// Deploy to gae
-	await GAEDeploy.handler(version);
+	if (platform === 'gae') {
+
+		// Deploy to gae
+		await GAEDeploy.handler(version);
+
+	} else if (platform === 'eb') {
+
+		// Deploy to eb
+		await EBDeploy.handler(version, false);
+
+	}
 
 	// Upload bundle to s3
 	await S3BundleUpload.handler(true);

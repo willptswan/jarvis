@@ -1,8 +1,18 @@
-exports.template = () => {
+exports.template = (useSCSS) => {
+
+	// Work out style extension
+	let styleExtension = 'less';
+	if (useSCSS) {
+		styleExtension = 'scss';
+	}
+
 	return `// Packages
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { shallow, mount } from '../../enzyme';
+
+// Styles
+import styles from './container.${styleExtension}';
 
 // Components
 import Container from './';
@@ -18,11 +28,11 @@ const pathMap = container.find(Route).reduce((pathMap, route) => {
 }, {});
 
 // Run tests
-describe('PageNotFound', () => {
+describe('Container', () => {
 
 	// Renders the component container
 	it('Renders the component container', () => {
-		expect(container.find('.container')).toBeDefined();
+		expect(container.hasClass(\`\${styles.container}\`)).toBeTruthy();
 	});
 
 	// Renders the home view

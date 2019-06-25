@@ -3,6 +3,51 @@ const fs = require('fs');
 const util = require('util');
 const Log = require('./Log');
 
+// Get folder contents
+exports.getFolderContents = async (path) => {
+
+	// Turn readdir into a promise
+	const readdir = util.promisify(fs.readdir);
+
+	// Get files in the directory
+	let files = await readdir(path);
+
+	let filesList = files.map((file) => {
+
+		// Get the full file path
+		let filePath;
+		if (path[path.length - 1] === '/') {
+			filePath = `${path}${file}`;
+		} else {
+			filePath = `${path}/${file}`;
+		}
+
+		return filePath;
+
+	});
+
+	return filesList;
+
+};
+
+// Check if a path is a file or a folder
+exports.isFileOrFolder = async (path) => {
+
+	// Turn lstat into a promise
+	const lstat = util.promisify(fs.lstat);
+
+	// Run lstat
+	const stat = await lstat(path);
+
+	// Check if the path is a file
+	if (stat.isFile()) {
+		return true;
+	} else {
+		return false;
+	}
+
+};
+
 // Check if a file exists
 exports.exists = (file) => {
 

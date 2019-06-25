@@ -1,7 +1,17 @@
-exports.template = (componentName, componentNameCamel) => {
+exports.template = (componentName, componentNameCamel, useSCSS) => {
+
+	// Work out style extension
+	let styleExtension = 'less';
+	if (useSCSS) {
+		styleExtension = 'scss';
+	}
+
 	return `// Packages
 import React from 'react';
 import { shallow } from '../../enzyme';
+
+// Styles
+import styles from './${componentName.toLowerCase()}.${styleExtension}';
 
 // Component
 import ${componentName} from './';
@@ -13,7 +23,7 @@ const ${componentNameCamel} = shallow(<${componentName} />);
 describe('${componentName}', () => {
 
   it('Renders the component container', () => {
-    expect(${componentNameCamel}.find('.${componentNameCamel}')).toBeDefined();
+		expect(${componentNameCamel}.hasClass(styles.${componentNameCamel})).toBeTruthy();
   });
 
 });`;

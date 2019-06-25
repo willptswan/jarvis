@@ -5,10 +5,14 @@ const Prompt = require('../utils/Prompt');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-exports.handler = async (version, files = null) => {
+exports.handler = async (version, files = null, checkGitConfig = true) => {
 
-	// Check active git config
-	await Config.checkActiveConfig('git');
+	if (checkGitConfig) {
+
+		// Check active git config
+		await Config.checkActiveConfig('git');
+
+	}
 
 	// Add files
 	await addFiles(files);

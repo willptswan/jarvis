@@ -25,7 +25,7 @@ async function deploy(version) {
 	version = version.split('.').join('-');
 
 	// Log deploying
-	Log.spaced(`Deploying ${version}...`, 'info');
+	Log.spaced(`Deploying ${version} (this may take a few minutes)...`, 'info');
 
 	// Deploy
 	const { stdout, stderr } = await exec(`gcloud app deploy app.yaml -v ${version} --quiet`);

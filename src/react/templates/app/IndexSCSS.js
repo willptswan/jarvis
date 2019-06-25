@@ -1,11 +1,11 @@
 exports.template = () => {
 	return `// Import Variables
-@import './variables.less';
+@import './variables.scss';
 
 @font-face {
-  font-family: @font-family;
+  font-family: $font-family;
   font-display: auto;
-  src: local(@font-family), url(https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,700&display=swap) format('woff2');
+  src: local($font-family), url(https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,700&display=swap) format('woff2');
 }
 
 body, html {
@@ -16,19 +16,19 @@ body, html {
 }
 
 body {
-	min-width: @min-width;
+	min-width: $min-width;
 }
 
 /* START TEXT DEFAULTS */
 
 * {
-	font-family: @font-family;
-  letter-spacing: @font-letter-spacing;
-	font-weight: @font-weight-normal;
+	font-family: $font-family;
+  letter-spacing: $font-letter-spacing;
+	font-weight: $font-weight-normal;
 }
 
 h1, h2, h3, h4, p, li, span {
-	color: @grey-dark-colour;
+	color: $grey-dark-colour;
 }
 
 p {
@@ -47,11 +47,11 @@ h1, h2, h3 {
 }
 
 h1, h4 {
-	font-weight: @font-weight-bold !important;
+	font-weight: $font-weight-bold !important;
 }
 
 h2, h3 {
-	font-weight: @font-weight-normal !important;
+	font-weight: $font-weight-normal !important;
 }
 
 h1 {
@@ -68,7 +68,7 @@ h3, h4 {
 
 a {
 	text-decoration: none;
-	color: @primary-colour;
+	color: $primary-colour;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
 	-ms-transition: 0.3s;
@@ -76,7 +76,7 @@ a {
 }
 
 a:hover {
-	color: @primary-dark-colour;
+	color: $primary-dark-colour;
 }
 
 /* END TEXT DEFAULTS */
@@ -84,7 +84,7 @@ a:hover {
 /* START INPUTS */
 
 input, textarea {
-  border: @grey-light-colour 1px solid;
+  border: $grey-light-colour 1px solid;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -113,19 +113,19 @@ textarea {
 }
 
 input:hover, input:focus, input:active, textarea:hover, textarea:focus, textarea:active {
-  border: @primary-light-colour 1px solid;
+  border: $primary-light-colour 1px solid;
 }
 
 button {
   width: 100% !important;
   border: none;
-  background-color: @primary-colour;
-  color: @white-colour;
+  background-color: $primary-colour;
+  color: $white-colour;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: @primary-light-colour;
+  background-color: $primary-light-colour;
 }
 
 /* END INPUTS */`;

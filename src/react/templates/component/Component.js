@@ -1,6 +1,13 @@
-exports.template = (componentName, componentNameCamel) => {
+exports.template = (componentName, componentNameCamel, useSCSS) => {
+
+	// Work out the correct style type
+	let style = 'less';
+	if (useSCSS) {
+		style = 'scss';
+	}
+
 	return `// Styles
-import styles from './${componentName.toLowerCase()}.less';
+import styles from './${componentName.toLowerCase()}.${style}';
 
 // Packages
 import React from 'react';

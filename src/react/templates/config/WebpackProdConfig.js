@@ -1,4 +1,13 @@
-exports.template = () => {
+exports.template = (useSCSS) => {
+
+	// Work out style info
+	let styleExtension = 'less';
+	let styleLoader = 'less-loader';
+	if (useSCSS) {
+		styleExtension = 'scss';
+		styleLoader = 'sass-loader';
+	}
+
 	return `// Imports
 var path = require('path');
 var webpack = require('webpack');
@@ -27,7 +36,7 @@ module.exports = function(env) {
 					]
 				},
 				{
-					test: /\.less$/,
+					test: /\.${styleExtension}/,
 					use: [{
 						loader: MiniCssExtractPlugin.loader,
 					},
@@ -37,12 +46,12 @@ module.exports = function(env) {
 							importLoaders: 1,
 							modules: {
 		            mode: 'local',
-		            localIdentName: '[path][name]__[local]--[hash:base64:5]',
+		            localIdentName: '[name]__[local]--[hash:base64:5]',
 		          },
 						}
 					},
 					{
-						loader: 'less-loader',
+						loader: '${styleLoader}',
 		     	options: {
 		      	javascriptEnabled: true,
 		    	},

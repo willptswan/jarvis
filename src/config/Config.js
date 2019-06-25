@@ -1,15 +1,16 @@
 // Imports
+const Constants = require('../utils/Constants');
 const Store = require('data-store');
-const path = require('path');
-const store = new Store({ path: `${getRootUserPath()}jarvis.json`});
+const store = new Store({ path: Constants.jarvisConfigPath()});
 const Prompt = require('../utils/Prompt');
 const Log = require('../utils/Log');
-const Constants = require('../utils/Constants');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const ConfigGCP = require('./ConfigGCP');
 const ConfigGit = require('./ConfigGit');
 const ConfigS3 = require('./ConfigS3');
+const ConfigEB = require('./ConfigEB');
+const Settings = require('../utils/Settings');
 
 /*
  * Features
@@ -25,6 +26,8 @@ exports.new = async (type) => {
 		await ConfigGCP.new();
 	} else if (type === 's3') {
 		await ConfigS3.new();
+	} else if (type === 'eb') {
+		await ConfigEB.new();
 	} else {
 		throw 'Please enter a valid config type';
 	}
@@ -41,6 +44,8 @@ exports.switch = async (type) => {
 		await ConfigGCP.activate();
 	} else if (type === 's3') {
 		await ConfigS3.activate();
+	} else if (type === 'eb') {
+		await ConfigEB.activate();
 	} else {
 		throw 'Please enter a valid config type';
 	}
@@ -60,6 +65,9 @@ exports.view = async (type) => {
 	} else if (type === 's3') {
 		let configs = await exports.getFromStore(Constants.s3ConfigsKey);
 		await exports.display(configs, 's3');
+	} else if (type === 'eb') {
+		let configs = await exports.getFromStore(Constants.ebConfigsKey);
+		await exports.display(configs, 'eb');
 	} else if (type === 'all') {
 
 		Log.spaced('Git Configs:', 'notice');
@@ -90,6 +98,8 @@ exports.update = async (type) => {
 		await ConfigGCP.update();
 	} else if (type === 's3') {
 		await ConfigS3.update();
+	} else if (type === 'eb') {
+		await ConfigEB.update();
 	} else {
 		throw 'Please enter a valid config type';
 	}
@@ -106,6 +116,8 @@ exports.delete = async (type, config = null, reset = false) => {
 		await ConfigGCP.delete(config, reset);
 	} else if (type === 's3') {
 		await ConfigS3.delete(config, reset);
+	} else if (type === 'eb') {
+		await ConfigEB.delete(config, reset);
 	} else {
 		throw 'Please enter a valid config type';
 	}
@@ -130,6 +142,10 @@ exports.deleteAllConfigs = async (type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
+	} else {
+		throw 'Invalid config type';
 	}
 
 	// Get all configs
@@ -155,18 +171,28 @@ exports.deleteAllConfigs = async (type) => {
 
 exports.updateConfigProperty = async (config, key) => {
 
-	// Ask for the new property value
-	let response = await Prompt.show({
-		name: 'value',
-		message: `What would you like to update the ${key} to? (${config[key]})`,
-		required: false
-	});
+	if (key === 'region') {
 
-	// Check if the property was changed
-	if (response.value !== '' && response.value !== null && response.value !== undefined) {
+ 		let region = await exports.chooseAWSRegion('', `What would you like to update the region to? (${config[key]})`, config[key]);
+		console.log(region);
+		config[key] = region;
 
-		// Update the property
-		config[key] = response.value;
+	} else {
+
+		// Ask for the new property value
+		let response = await Prompt.show({
+			name: 'value',
+			message: `What would you like to update the ${key} to? (${config[key]})`,
+			required: false
+		});
+
+		// Check if the property was changed
+		if (response.value !== '' && response.value !== null && response.value !== undefined) {
+
+			// Update the property
+			config[key] = response.value;
+
+		}
 
 	}
 
@@ -199,16 +225,18 @@ exports.display = async (configs, type, keys = null) => {
 		// Loop through all configs
 		configs.forEach((config) => {
 
-		// Check if no keys have been passed
+			// Check if no keys have been passed
 			if (keys === null) {
 
-			// Check config type and populate keys array
+				// Check config type and populate keys array
 				if (type === 'git') {
 					keys = ['active', 'id', 'username', 'email', 'personalAccessToken', 'githubKeyTitle', 'githubKeyId'];
 				} else if (type === 'gcp') {
 					keys = ['active', 'id', 'account', 'project'];
 				} else if (type === 's3') {
 					keys = ['active', 'id', 'region', 'accessKey', 'secretAccessKey', 'bucket'];
+				} else if (type === 'eb') {
+					keys = ['active', 'id', 'region', 'accessKey', 'secretAccessKey'];
 				} else {
 					Log.standard('Error displaying configs', 'error');
 					throw 'Invalid config type';
@@ -219,7 +247,7 @@ exports.display = async (configs, type, keys = null) => {
 			// Loop through keys
 			keys.forEach((key) => {
 
-			// Log the key
+				// Log the key
 				Log.standard(`${key}: ${config[key]}`, 'notice');
 
 			});
@@ -230,11 +258,6 @@ exports.display = async (configs, type, keys = null) => {
 
 	}
 
-};
-
-// Get root user path
-exports.getRootPath = async (key) => {
-	return getRootUserPath();
 };
 
 // Get data from store
@@ -285,6 +308,8 @@ exports.idExists = async (configId, type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -342,6 +367,8 @@ exports.activate = async (activeConfig, type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -404,6 +431,8 @@ exports.deactivateAll = async (type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -449,6 +478,8 @@ exports.getActive = async (type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -488,6 +519,8 @@ exports.chooseConfig = async (type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -535,6 +568,8 @@ exports.getConfig = async (configId, type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -582,6 +617,8 @@ exports.updateConfigs = async (updatedConfig, type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -633,6 +670,8 @@ exports.deleteConfig = async (deleteConfig, type) => {
 		key = Constants.gcpConfigsKey;
 	} else if (type === 's3') {
 		key = Constants.s3ConfigsKey;
+	} else if (type === 'eb') {
+		key = Constants.ebConfigsKey;
 	} else {
 		throw 'Invalid config type';
 	}
@@ -675,72 +714,112 @@ exports.deleteConfig = async (deleteConfig, type) => {
 // Check active config
 exports.checkActiveConfig = async (type) => {
 
-	// Log checking active config
-	Log.spaced(`Checking active ${type} config...`, 'info');
+	// Check if active config should be checked
+	let settings = await Settings.get();
+	if (settings.checkActiveConfig) {
 
-	// Get active config
-	let config = await exports.getActive(type);
+		// Log checking active config
+		Log.spaced(`Checking active ${type} config...`, 'info');
 
-	// Set keys to display
-	keys = ['active', 'id'];
-	if (type === 'git') {
-		keys.push('username');
-		keys.push('email');
-		keys.push('repo');
-	} else if (type === 'gcp') {
-		keys.push('account');
-		keys.push('project');
-	} else if (type === 's3') {
-		keys.push('region');
-		keys.push('bucket');
-	}
+		// Get active config
+		let config = await exports.getActive(type);
 
-	// Display this config
-	await exports.display(config, type, keys);
-
-	// Ask if this is the correct config
-	let response = await Prompt.show({
-		name: 'answer',
-		message: `Is this the correct ${type} config? Y/n`,
-		required: true
-	});
-
-	// Check answer
-	if (response.answer.toLowerCase() === 'y') {
-
-		// Log checked
-		Log.standard(`Checked active ${type} config`, 'success');
-
-	} else {
-
-		// Switch configs
+		// Set keys to display
+		keys = ['active', 'id'];
 		if (type === 'git') {
-			await ConfigGit.activate();
+			keys.push('username');
+			keys.push('email');
+			keys.push('repo');
 		} else if (type === 'gcp') {
-			await ConfigGCP.activate();
+			keys.push('account');
+			keys.push('project');
 		} else if (type === 's3') {
-			await ConfigS3.activate();
+			keys.push('region');
+			keys.push('bucket');
+		} else if (type === 'eb') {
+			keys.push('region');
+		}
+
+		// Display this config
+		await exports.display(config, type, keys);
+
+		// Ask if this is the correct config
+		let response = await Prompt.show({
+			name: 'answer',
+			message: `Is this the correct ${type} config? Y/n`,
+			required: true
+		});
+
+			// Check answer
+		if (response.answer.toLowerCase() === 'y') {
+
+			// Log checked
+			Log.standard(`Checked active ${type} config`, 'success');
+
 		} else {
-			throw 'Please enter a valid config type';
+
+			// Switch configs
+			if (type === 'git') {
+				await ConfigGit.activate();
+			} else if (type === 'gcp') {
+				await ConfigGCP.activate();
+			} else if (type === 's3') {
+				await ConfigS3.activate();
+			} else {
+				throw 'Please enter a valid config type';
+			}
+
 		}
 
 	}
 
 };
 
-/*
- * Helper Functions
-*/
+// Choose aws region
+exports.chooseAWSRegion = async (type, message = null, defaultRegion = null) => {
 
-// Get root user path
-// Note: This is mac specific
-function getRootUserPath() {
+	// Format message
+	if (message === null) {
+		message = `${type} region`;
+	}
 
-	// Get current path and split it into parts
-	let currentPath = path.resolve();
-	currentPath = currentPath.split('/');
+	// Format required
+	let required = false;
+	if (defaultRegion === null) {
+		required = true;
+	}
 
-	// Join parts 2 & 3 to get /Users/username/
-	return `/${currentPath[1]}/${currentPath[2]}/`;
+	// Log all AWS regions
+	Log.spacer();
 
-}
+	Constants.awsRegions.forEach((region) => {
+		Log.standard(`${region.region} - ${region.description}`, 'notice');
+	});
+
+	Log.spacer();
+
+	// Ask for the region
+	let response = await Prompt.show({
+		name: 'region',
+		message: message,
+		required: required
+	});
+
+	// Get default region if not required
+	if (!required && response.region === '') {
+		response.region = defaultRegion;
+	}
+
+	// Check the region is valid
+	let regions = Constants.awsRegions.filter((region) => {
+		return response.region === region.region;
+	});
+	if (regions.length !== 0) {
+		return response.region;
+	} else {
+		Log.spaced('Please choose a valid region', 'notice');
+		Log.spacer();
+		return await exports.chooseAWSRegion(type, message);
+	}
+
+};

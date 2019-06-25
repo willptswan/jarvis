@@ -1,10 +1,18 @@
 // Imports
 const Config = require('../../../config/Config');
 
-exports.template = async (projectName) => {
+exports.template = async (projectName, useSCSS) => {
 
 	// Get current active git config
 	let gitConfig = await Config.getActive('git');
+
+	// Work out style info
+	let styleType = 'less';
+	let styleLoader = 'less-loader';
+	if (useSCSS) {
+		styleType = 'node-sass';
+		styleLoader = 'sass-loader';
+	}
 
 	return `{
   "name": "${projectName}",
@@ -35,15 +43,15 @@ exports.template = async (projectName) => {
     "eslint": "latest",
     "identity-obj-proxy": "latest",
     "jest": "latest",
-    "less": "latest",
-    "less-loader": "latest",
     "mini-css-extract-plugin": "latest",
     "optimize-css-assets-webpack-plugin": "latest",
     "style-loader": "latest",
     "webpack": "latest",
     "webpack-build-notifier": "latest",
     "webpack-cli": "latest",
-    "webpack-dev-server": "latest"
+    "webpack-dev-server": "latest",
+		"${styleType}": "latest",
+    "${styleLoader}": "latest"
   },
   "dependencies": {
 		"express": "latest",

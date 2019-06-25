@@ -3,6 +3,7 @@ const Config = require('../config/Config');
 const Prompt = require('../utils/Prompt');
 const Log = require('../utils/Log');
 const Constants = require('../utils/Constants');
+const Settings = require('../utils/Settings');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
@@ -35,6 +36,12 @@ exports.handler = async () => {
 
 		// Delete all gcp configs
 		await Config.deleteAllConfigs('gcp');
+
+		// Delete all eb configs
+		await Config.deleteAllConfigs('eb');
+
+		// Reset Settings
+		await Settings.reset();
 
 	} else {
 		throw 'reset aborted';

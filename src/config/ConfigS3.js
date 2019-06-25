@@ -140,12 +140,8 @@ exports.new = async () => {
 	config.id = checkedId;
 
 	// Ask for the region and set it to the config
-	response = await Prompt.show({
-		name: 'region',
-		message: 'S3 region',
-		required: true
-	});
-	config.region = response.region;
+	let region = await Config.chooseAWSRegion('S3');
+	config.region = region;
 
 	// Ask for the access key and set it to the config
 	response = await Prompt.show({

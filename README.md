@@ -4,7 +4,11 @@
 
 Jarvis is a continually growing CLI that helps with routine tasks and speeds up a few things.
 
-To learn how to install and use Jarvis and find out more about why I created this project, click the link below.
+To learn how to install and use Jarvis:
+
+[Medium - How to Set Up and Use Jarvis — The CLI That Makes Your Life Easier](https://medium.com/better-programming/how-to-set-up-use-jarvis-the-cli-that-makes-your-life-easier-54fa6d7e83b)
+
+To find out more about why I created this project:
 
 [Medium - Building A CLI To Help Manage GitHub Accounts, React Projects, And More…](https://medium.com/@willptswan/building-a-cli-to-help-manage-github-accounts-react-projects-and-more-2755259be493)
 
@@ -12,7 +16,7 @@ Currently, Jarvis can:
 
 - Manage git configs
 - Manage GCP configs
-- Manage s3 access configs
+- Manage S3 access configs
 - Initialise react projects
 - Create react components
 - Deploy react projects to Google App Engine
@@ -22,6 +26,8 @@ Currently, Jarvis can:
 - Initialise git directories
 - Open websites
 - Search websites
+- Upload files and folders to S3
+- Initialise and deploy Elastic Beanstalk applications
 
 ## Install Jarvis
 
@@ -36,6 +42,11 @@ npm link
 ```
 npm install -g @willptswan/jarvis
 ```
+
+Jarvis requires the following CLI's to be installed:
+
+- Cloud SDK - [Install](https://cloud.google.com/sdk/)
+- EB CLI - [Install](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-advanced.html)
 
 ## Using Jarvis
 
@@ -61,43 +72,48 @@ jarvis reset
 ```
 
 #### Config New
-Create and store a new config. Valid arguments are git, gcp, and s3.
+Create and store a new config. Valid arguments are git, gcp, eb, and s3.
 ```
 jarvis config-new git
 jarvis config-new gcp
 jarvis config-new s3
+jarvis config-new eb
 ```
 
 #### Config Delete
-Delete a stored config. Valid arguments are git, gcp, and s3.
+Delete a stored config. Valid arguments are git, gcp, eb, and s3.
 ```
 jarvis config-delete git
 jarvis config-delete gcp
 jarvis config-delete s3
+jarvis config-delete eb
 ```
 
 #### Config Update
-Update a stored config. Valid arguments are git, gcp, and s3.
+Update a stored config. Valid arguments are git, gcp, eb, and s3.
 ```
 jarvis config-update git
 jarvis config-update gcp
 jarvis config-update s3
+jarvis config-update eb
 ```
 
 #### Config Switch
-Switch between stored configs. Valid arguments are git, gcp, and s3.
+Switch between stored configs. Valid arguments are git, gcp, eb, and s3.
 ```
 jarvis config-switch git
 jarvis config-switch gcp
 jarvis config-switch s3
+jarvis config-switch eb
 ```
 
 #### Config View
-View all stored configs. Valid arguments are git, gcp, s3, and all.
+View all stored configs. Valid arguments are git, gcp, s3, eb, and all.
 ```
 jarvis config-view git
 jarvis config-view gcp
 jarvis config-view s3
+jarvis config-view eb
 jarvis config-view all
 ```
 
@@ -112,6 +128,7 @@ jarvis react-init my-project
 jarvis react-init MyProject
 jarvis react-init myProject
 ```
+By default, Jarvis will use LESS for all styles. If you would like to use SCSS then update the useSCSS setting.
 
 #### React Create
 Create a new boilerplate React component.
@@ -122,15 +139,17 @@ e.g.
 
 jarvis react-create MyComponent
 ```
+By default, Jarvis will use LESS for all styles. If you would like to use SCSS then update the useSCSS setting.
 
 #### React Deploy
-Deploy a react project to Google App Engine.
+Deploy a react project to Google App Engine or Elastic Beanstalk.
 ```
-jarvis react-deploy <version>
+jarvis react-deploy <platform> <version>
 
 e.g.
 
-jarvis react-deploy 1.0.0
+jarvis react-deploy gae 1.0.0
+jarvis react-deploy eb 1.0.0
 ```
 
 #### React Build
@@ -183,10 +202,51 @@ e.g.
 jarvis gae-deploy 1.0.0
 ```
 
+#### Elastic Beanstalk Init
+Initialise an Elastic Beanstalk application and environment.
+```
+jarvis eb-init <applicationName>
+
+e.g.
+
+jarvis eb-init my-app
+```
+
+#### Elastic Beanstalk Deploy
+Deploy an application to Elastic Beanstalk.
+```
+jarvis eb-deploy <version>
+
+e.g.
+
+jarvis eb-deploy 1.0.0
+```
+
 #### S3 Bundle Upload
 Upload a css and js bundle to AWS S3.
 ```
 jarvis s3-bundle-upload
+```
+
+#### S3 Upload
+Upload files and folders to AWS S3.
+```
+jarvis s3-upload <filePath> -p
+```
+
+Single file upload:
+```
+jarvis s3-upload file.js
+```
+
+Multi file upload:
+```
+jarvis s3-upload FolderWithMultipleFiles -p
+```
+
+Folder upload:
+```
+jarvis s3-upload Folder
 ```
 
 #### Site Open
@@ -204,6 +264,7 @@ jarvis site-open cocoa // Opens CocoaPods
 jarvis site-open g // Opens Google
 jarvis site-open awe // Opens Awesome
 jarvis site-open gh // Opens GitHub
+jarvis site-open css // Opens CSS Tricks
 ```
 
 #### Site Search
@@ -217,18 +278,34 @@ jarvis site-search so // Searches Stack Overflow
 jarvis site-search npm // Searches NPM
 jarvis site-search g // Searches Google
 jarvis site-search gh // Searches GitHub
+jarvis site-search css // Searches CSS Tricks
 ```
 
+#### Settings Update
+Update the settings.
+```
+jarvis settings-update
+```
+
+#### Settings Reset
+Reset all settings to default values.
+```
+settings-reset
+```
+
+#### Settings View
+View all of your current settings.
+```
+settings-View
+```
 
 ## Near-Future Plans
 
-- Upload files to AWS S3
-- Support for sass and css in the React commands
 - Push to different branches in a GitHub repo
 - Some cool handy Firebase things
 - Handle time tracking
-- Deploy apps to AWS
 - Create Swift templates
+- Lossy & lossless image compression
 
 ## Notes
 

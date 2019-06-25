@@ -2,7 +2,7 @@ exports.template = () => {
 	return `// Constants
 const siteName = "";
 const siteURL = "";
-const s3Base = "";
+const s3Base = ""; // Make sure there is no / at the end of the URL
 const defaultImage = "";
 const twitterUsername = "";
 const twitterURL = "https://twitter.com/";
@@ -15,7 +15,7 @@ const dnsPreFetch = [
 ];
 const env = process.env.NODE_ENV;
 const staticURLDev = "build/";
-const staticURLProd = \`\${siteURL}/\`;
+const staticURLProd = \`\${s3Base}/\`;
 const primaryColour = "#1a91c6";
 const googleAnalyticsId = "";
 
@@ -72,6 +72,26 @@ class Environment {
 	// Get DNS pre fetch
 	static get dnsPreFetch() {
 		return dnsPreFetch;
+	}
+
+	// Get twitter url
+	static get twitterURL() {
+		return twitterURL;
+	}
+
+	// Get facebook url
+	static get facebookURL() {
+		return facebookURL;
+	}
+
+	// Get instagram url
+	static get instagramURL() {
+		return instagramURL;
+	}
+
+	// Get youtube url
+	static get youtubeURL() {
+		return youtubeURL;
 	}
 
 }
