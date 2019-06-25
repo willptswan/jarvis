@@ -2,7 +2,7 @@
 const path = require('path');
 
 // App version
-exports.version = '1.1.0';
+exports.version = '1.1.1';
 
 // Root User Path
 // Note: This is mac specific
@@ -210,7 +210,7 @@ exports.awsRegions = [
 exports.defaultSettings = {
 	checkActiveConfig: true,
 	useSCSS: false,
-	autoCheckUpdates: false
+	autoCheckUpdates: true
 };
 
 // Valid commands

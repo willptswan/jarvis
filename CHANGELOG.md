@@ -1,6 +1,10 @@
 # Change Log
 
-#### 1.1.0
+#### V1.1.1
+
+- Updated autoCheckUpdates setting default value to true
+
+#### V1.1.0
 
 New:
 
