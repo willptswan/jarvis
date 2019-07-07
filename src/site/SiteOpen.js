@@ -17,7 +17,7 @@ exports.handler = async (site) => {
 		if (site === siteInfo.shortHand) {
 
 			// Log opening
-			Log.standard(`Opening ${siteInfo.name} in Chrome...`, 'info');
+			Log.info(`Opening ${siteInfo.name} in default browser...`);
 
 			// Set url
 			url = siteInfo.url;
@@ -28,11 +28,17 @@ exports.handler = async (site) => {
 
 	// Check if any short hands were matched
 	if (url === '') {
-		Log.standard(`Opening ${site} in Chrome...`, 'info');
+		Log.info(`Opening ${site} in default browser...`);
 		url = site;
 	}
 
 	// Open the site
-	await exec(`open -na "Google Chrome" --args "${url}"`);
+	if (process.platform === Constants.osMac) {
+		await exec(`open "${url}"`);
+	} else if (process.platform === Constants.osWindows) {
+		await exec(`explorer "${url}"`);
+	} else if (process.platform === Constants.linux) {
+		await exec(`xdg-open "${url}"`);
+	}
 
 };

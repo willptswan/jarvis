@@ -1,26 +1,34 @@
 // Imports
-const Constants = require('./Constants');
+const Chalk = require('chalk');
 
-// Standard log
-exports.standard = (log, type = 'default') => {
-
-	console.log(getColour(type), log);
-
+// Standard
+exports.standard = (log, tabs = 0) => {
+	console.log(`${getTabs(tabs)}${Chalk.white(log)}`);
 };
 
-// Tabbed log
-exports.tabbed = (log, type = 'default') => {
-
-	console.log(getColour(type), `    ${log}`);
-
+// Info
+exports.info = (log, tabs = 0) => {
+	console.log(`${getTabs(tabs)}${Chalk.cyan(log)}`);
 };
 
-// Spaced out log
-exports.spaced = (log, type = 'default') => {
+// Success
+exports.success = (log, tabs = 0) => {
+	console.log(`${getTabs(tabs)}${Chalk.green(log)}`);
+};
 
-	console.log('');
-	console.log(getColour(type), log);
+// Notice
+exports.notice = (log, tabs = 0) => {
+	console.log(`${getTabs(tabs)}${Chalk.yellow(log)}`);
+};
 
+// Error
+exports.error = (log, tabs = 0) => {
+	console.log(`${Chalk.white.bgRed(' Error ')} ${getTabs(tabs)}${Chalk.redBright(log)}`);
+};
+
+// Debug
+exports.debug = (log, tabs = 0) => {
+	console.log(`${Chalk.white.bgMagenta(' Debug ')} ${getTabs(tabs)}${Chalk.magenta(log)}`);
 };
 
 // Spacer
@@ -28,33 +36,31 @@ exports.spacer = () => {
 	console.log('');
 };
 
-function getColour(type) {
+/*
+ * Helper Functions
+*/
 
-	let colour;
+function getTabs(tabs) {
 
-	switch (type) {
+	let tabsString = '';
 
-	case 'info':
-		colour = Constants.blueLog;
+	switch (tabs) {
+	case 1:
+		tabsString = '	';
 		break;
-
-	case 'success':
-		colour = Constants.greenLog;
+	case 2:
+		tabsString = '		';
 		break;
-
-	case 'error':
-		colour = Constants.redLog;
+	case 3:
+		tabsString = '			';
 		break;
-
-	case 'notice':
-		colour = Constants.yellowLog;
+	case 4:
+		tabsString = '				';
 		break;
-
 	default:
-		colour = Constants.whiteLog;
-
+		tabsString = '';
 	}
 
-	return colour;
+	return tabsString;
 
 }

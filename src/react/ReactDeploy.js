@@ -55,13 +55,14 @@ async function updateIndexHTML() {
 	let config = await Config.getActive('s3');
 
 	// Log updating
-	Log.spaced('Updating index.html...', 'info');
+	Log.spacer();
+	Log.info('Updating index.html...');
 
 	// Update
 	await Files.replaceContents('./index.html', './build/index.js', `https://${config.bucket}.s3.${config.region}.amazonaws.com/index.js.gz`);
 
 	// Log success
-	Log.standard('Updated index.html', 'success');
+	Log.success('Updated index.html');
 
 }
 
@@ -69,13 +70,14 @@ async function updateIndexHTML() {
 async function runTests() {
 
 	// Log running npm tests
-	Log.spaced('Running npm tests...', 'info');
+	Log.spacer();
+	Log.info('Running npm tests...');
 
 	// Run tests
 	const { stdout, stderr } = await exec('npm run test');
 
 	// Log results
-	Log.standard(stderr, 'notice');
+	Log.notice(stderr);
 
 }
 
@@ -83,17 +85,18 @@ async function runTests() {
 async function runProductionBuild() {
 
 	// Log running production build
-	Log.spaced('Running production build...', 'info');
+	Log.spacer();
+	Log.info('Running production build...');
 
 	// Build
 	const { stdout, stderr } = await exec('npm run build:prod');
 
 	// Check for errors
 	if (stderr.includes('Exit status')) {
-		Log.standard('Error running production build', 'error');
+		Log.error('Error running production build');
 		throw stderr;
 	} else {
-		Log.standard('Production build completed', 'success');
+		Log.success('Production build completed');
 	}
 
 }

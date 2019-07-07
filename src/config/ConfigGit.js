@@ -49,7 +49,8 @@ exports.delete = async (config, reset) => {
 		if (config.active && !reset) {
 
 			// Log activate another config
-			Log.spaced('Please activate a git config', 'notice');
+			Log.spacer();
+			Log.notice('Please activate a git config');
 
 			// Activate a new config
 			await exports.activate();
@@ -171,13 +172,14 @@ exports.new = async () => {
 	config.githubKeyId = githubKeyId;
 
 	// Log storing config
-	Log.spaced('Storing git config...', 'info');
+	Log.spacer();
+	Log.info('Storing git config...');
 
 	// Store config
 	await Config.setToStore(Constants.gitConfigsKey, config, true);
 
 	// Log stored
-	Log.standard('Stored git config', 'success');
+	Log.success('Stored git config');
 
 	// Ask if we want to activate the new config
 	response = await Prompt.show({
@@ -247,7 +249,8 @@ exports.activate = async (configId = null, addOrigin = false) => {
 async function setGitRemoteURL(config) {
 
 	// Log setting remote url
-	Log.spaced('Setting git remote url...', 'info');
+	Log.spacer();
+	Log.info('Setting git remote url...');
 
 	// Set remote url
 	const { stdout, stderr } = await exec(`git remote set-url origin git@github.com-${config.username}:${config.username}/${config.repo}.git`);
@@ -256,7 +259,7 @@ async function setGitRemoteURL(config) {
 	if (stderr) {
 		throw stderr;
 	} else {
-		Log.standard('Set git remote url', 'success');
+		Log.success('Set git remote url');
 	}
 
 }
@@ -265,7 +268,8 @@ async function setGitRemoteURL(config) {
 async function setGlobalLocalGitConfigs(config) {
 
 	// Log setting global and local configs
-	Log.spaced('Setting global and local git configs...', 'info');
+	Log.spacer();
+	Log.info('Setting global and local git configs...');
 
 	// Set global and local configs
 	const { stdout, stderr } = await exec(`git config --global user.name ${config.username}; git config --global user.email ${config.email}; git config user.name ${config.username}; git config user.email ${config.email}`);
@@ -274,7 +278,7 @@ async function setGlobalLocalGitConfigs(config) {
 	if (stderr) {
 		throw stderr;
 	} else {
-		Log.standard('Updated global and local git configs', 'success');
+		Log.success('Updated global and local git configs');
 	}
 
 }
@@ -283,7 +287,8 @@ async function setGlobalLocalGitConfigs(config) {
 async function addGitRemoteOrigin(config) {
 
 	// Log adding remote origin
-	Log.spaced('Adding git remote origin...', 'info');
+	Log.spacer();
+	Log.info('Adding git remote origin...');
 
 	// Add remote origin
 	const { stdout, stderr } = await exec(`git remote add origin https://github.com/${config.username}/${config.repo}.git`);
@@ -292,7 +297,7 @@ async function addGitRemoteOrigin(config) {
 	if (stderr) {
 		throw stderr;
 	} else {
-		Log.standard('Added git remote origin', 'success');
+		Log.success('Added git remote origin');
 	}
 
 }
@@ -306,7 +311,7 @@ async function inGitDirectory(abort) {
 	if (!exists) {
 
 		if (abort) {
-			Log.standard('You are not in a git directory', 'error');
+			Log.error('You are not in a git directory');
 			throw 'This command must be run in a git directory';
 		}
 
@@ -338,7 +343,8 @@ async function uploadGitHubSSH(config) {
 	let rootPath = Constants.rootUserPath();
 
 	// Log uploading public ssh key to github
-	Log.spaced('Uploading public SSH key to GitHub...', 'info');
+	Log.spacer();
+	Log.info('Uploading public SSH key to GitHub...');
 
 	// Get public key from file
 	let key = await Files.load(`${rootPath}.ssh/jarvis-github-${config.username}.pub`);
@@ -356,7 +362,7 @@ async function uploadGitHubSSH(config) {
 	// Check that the key was uploaded
 	if (stdout.includes("created_at")) {
 
-		Log.standard('Uploaded public SSH key to GitHub', 'success');
+		Log.success('Uploaded public SSH key to GitHub');
 
 		// Convert the response to json so that we can get the id
   	let response = JSON.parse(stdout);
@@ -364,7 +370,7 @@ async function uploadGitHubSSH(config) {
 		return response.id;
 
 	} else {
-		Log.standard('Error uploading public SSH key to GitHub', 'error');
+		Log.error('Error uploading public SSH key to GitHub');
 		throw stdout;
 	}
 
@@ -388,7 +394,8 @@ Host github.com-${config.username}
 	if (!exists) {
 
 		// Log creating ssh config
-		Log.spaced('Creating SSH config...', 'info');
+		Log.spacer();
+		Log.info('Creating SSH config...');
 
 		// Create config file
 		await Files.create(`${rootPath}.ssh/config`, sshConfig);
@@ -396,7 +403,8 @@ Host github.com-${config.username}
 	} else {
 
 		// Log updating ssh config
-  	Log.spaced('Updating SSH config...', 'info');
+		Log.spacer();
+  	Log.info('Updating SSH config...');
 
 		// Update config file
 		await Files.append(`${rootPath}.ssh/config`, sshConfig);
@@ -409,17 +417,18 @@ Host github.com-${config.username}
 async function generateSSHKeys(rootPath, config) {
 
 	// Log generating ssh keys
-	Log.spaced('Generating SSH keys...', 'info');
+	Log.spacer();
+	Log.info('Generating SSH keys...');
 
 	// Generate keys
 	const { stdout, stderr } = await exec(`ssh-keygen -t rsa -b 4096 -C "${config.email}" -f "${rootPath}.ssh/jarvis-github-${config.username}" -N ""`);
 
 	// Check for errors
 	if (stderr) {
-		Log.standard('Error generating SSH keys', 'error');
+		Log.error('Error generating SSH keys');
 		throw stderr;
 	} else {
-		Log.standard('Generated SSH keys', 'success');
+		Log.success('Generated SSH keys');
 	}
 
 }
@@ -432,7 +441,8 @@ async function createSSHFolder(rootPath) {
 	if (!exists) {
 
 		// Log create .ssh folder
-		Log.spaced(`Creating ${rootPath}.ssh folder...`, 'info');
+		Log.spacer();
+		Log.info(`Creating ${rootPath}.ssh folder...`);
 
 		// Create folder
 		await Files.makeDir(`${rootPath}.ssh`);
@@ -447,7 +457,8 @@ async function deleteSSHConfig(config) {
 	let rootPath = Constants.rootUserPath();
 
 	// Log deleting ssh keys
-	Log.spaced('Deleting SSH keys...', 'info');
+	Log.spacer();
+	Log.info('Deleting SSH keys...');
 
 	// Delete private key
 	await Files.delete(`${rootPath}.ssh/jarvis-github-${config.username}`);
@@ -456,10 +467,11 @@ async function deleteSSHConfig(config) {
 	await Files.delete(`${rootPath}.ssh/jarvis-github-${config.username}.pub`);
 
 	// Log deleted ssh keys
-	Log.standard('Deleted SSH keys', 'success');
+	Log.success('Deleted SSH keys');
 
 	// Log updating ssh config
-	Log.spaced('Removing old config from SSH config...', 'info');
+	Log.spacer();
+	Log.info('Removing old config from SSH config...');
 
 	// Create the ssh config to be searched for
 	let sshSearchConfig = `
@@ -475,7 +487,7 @@ Host github.com-${config.username}
 	await Files.replaceContents(`${rootPath}.ssh/config`, sshSearchConfig, '');
 
 	// Log updated ssh config
-	Log.standard('Removed old config from SSH config...', 'success');
+	Log.success('Removed old config from SSH config...');
 
 	// Delete key from GitHub
 	await deleteGitHubSSH(config);
@@ -486,16 +498,17 @@ Host github.com-${config.username}
 async function deleteGitHubSSH(config) {
 
 	// Log deleting ssh key from github
-	Log.spaced('Deleting public SSH key from GitHub...', 'info');
+	Log.spacer();
+	Log.info('Deleting public SSH key from GitHub...');
 
 	// Delete
 	const { stdout, stderr } = await exec(`curl -u "${config.username}:${config.personalAccessToken}" -X "DELETE" https://api.github.com/user/keys/${config.githubKeyId}`);
 
 	// Check that the key was deleted
 	if (stdout === '') {
-		Log.standard('Deleted public SSH key from GitHub', 'success');
+		Log.success('Deleted public SSH key from GitHub');
 	} else {
-		Log.standard('Error deleting public SSH key from GitHub', 'error');
+		Log.error('Error deleting public SSH key from GitHub');
 		throw stdout;
 	}
 

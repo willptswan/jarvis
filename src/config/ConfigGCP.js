@@ -46,7 +46,7 @@ exports.delete = async (config, reset) => {
 
 		// Check jarvis-dummy was activated
 		if (!stderr.includes('Activated')) {
-			Log.standard(`Error deleting ${config.id} config`, 'error');
+			Log.error(`Error deleting ${config.id} config`);
 			throw stderr;
 		}
 
@@ -60,7 +60,8 @@ exports.delete = async (config, reset) => {
 		if (config.active && !reset) {
 
 			// Log activate another config
-			Log.spaced('Please activate a gcp config', 'notice');
+			Log.spacer();
+			Log.notice('Please activate a gcp config');
 
 			// Activate a new config
 			await exports.activate();
@@ -125,14 +126,15 @@ exports.activate = async (configId = null) => {
 	await Config.activate(config, 'gcp');
 
 	// Log activating gcloud config
-	Log.spaced(`Activating ${config.id} gcloud config...`, 'info');
+	Log.spacer();
+	Log.info(`Activating ${config.id} gcloud config...`);
 
 	// Activate the gcloud config
 	const { stdout, stderr } = await exec(`gcloud config configurations activate ${config.id}`);
 
 	// Check the config was activated
 	if (stderr.includes('Activated')) {
-		Log.standard(`Activated ${config.id} gcloud config...`, 'success');
+		Log.success(`Activated ${config.id} gcloud config...`);
 	} else {
 		throw `Failed to activate ${config.id} gcloud config`;
 	}
@@ -184,9 +186,10 @@ exports.new = async () => {
 	await createConfig(config);
 
 	// Store the config
-	Log.spaced('Storing config data...', 'info');
+	Log.spacer();
+	Log.info('Storing config data...');
 	await Config.setToStore(Constants.gcpConfigsKey, config, true);
-	Log.standard('Stored config data', 'success');
+	Log.success('Stored config data');
 
 	// Log in
 	await loginToGcloud();
@@ -201,13 +204,14 @@ exports.new = async () => {
 async function loginToGcloud() {
 
 	// Log logging in
-	Log.spaced('Logging into gcloud...', 'info');
+	Log.spacer();
+	Log.info('Logging into gcloud...');
 
 	// Log in
 	const { stdout, stderr } = await exec('gcloud auth login --quiet');
 
 	// Log success
-	Log.standard('Logged into gcloud', 'success');
+	Log.success('Logged into gcloud');
 
 }
 
@@ -215,7 +219,8 @@ async function loginToGcloud() {
 async function createConfig(config) {
 
 	// Log creating config
-	Log.spaced(`Creating config ${config.id}...`, 'info');
+	Log.spacer();
+	Log.info(`Creating config ${config.id}...`);
 
 	// Create config
 	const { stdout, stderr } = await exec(`gcloud config configurations create ${config.id}`);
@@ -224,7 +229,7 @@ async function createConfig(config) {
 	if (stderr.includes('Created')) {
 
 		// Log success
-		Log.standard(`Created config ${config.id}`, 'success');
+		Log.success(`Created config ${config.id}`);
 
 		// Set account property
 		await setConfigProperty('account', config.account);
@@ -233,7 +238,7 @@ async function createConfig(config) {
 		await setConfigProperty('project', config.project);
 
 	} else {
-		Log.standard(`Failed to create config ${config.id}`, 'error');
+		Log.error(`Failed to create config ${config.id}`);
 		throw stderr;
 	}
 
@@ -243,16 +248,17 @@ async function createConfig(config) {
 async function setConfigProperty(property, value) {
 
 	// Log setting property
-	Log.spaced(`Setting ${value} to config ${property}...`, 'info');
+	Log.spacer();
+	Log.info(`Setting ${value} to config ${property}...`);
 
 	// Set property
 	const { stdout, stderr } = await exec(`gcloud config set ${property} ${value}`);
 
 	// Check that the property was set
 	if (stderr.includes('Updated property')) {
-		Log.standard(`${value} set to config ${property}`, 'success');
+		Log.success(`${value} set to config ${property}`);
 	} else {
-		Log.standard(`Failed to set ${value} to config ${property}`, 'error');
+		Log.error(`Failed to set ${value} to config ${property}`);
 		throw stderr;
 	}
 
@@ -267,7 +273,8 @@ async function checkDummyConfig() {
 	if (isset !== true) {
 
 		// Log initialising jarvis gcp config
-  	Log.spaced('Initialising Jarvis GCP config...', 'info');
+		Log.spacer();
+  	Log.info('Initialising Jarvis GCP config...');
 
 		// Create the dummy config
 		const { stdout, stderr } = await exec('gcloud config configurations create jarvis-dummy');
@@ -279,10 +286,10 @@ async function checkDummyConfig() {
 			await Config.setToStore(Constants.dummyGCPConfigSetKey, true);
 
 			// Log success
-			Log.standard('Initialised Jarvis GCP config', 'success');
+			Log.success('Initialised Jarvis GCP config');
 
 		} else {
-			Log.standard('Error initialising Jarvis GCP config', 'error');
+			Log.error('Error initialising Jarvis GCP config');
 			throw stderr;
 		}
 
@@ -294,7 +301,8 @@ async function checkDummyConfig() {
 async function deleteGCloudConfig(config) {
 
 	// Log deleting gcp config
-	Log.spaced(`Deleting ${config.id} from gcloud config...`, 'info');
+	Log.spacer();
+	Log.info(`Deleting ${config.id} from gcloud config...`);
 
 	// Delete
 	const { stdout, stderr } = await exec(`gcloud config configurations delete ${config.id} --quiet`);
@@ -303,7 +311,7 @@ async function deleteGCloudConfig(config) {
 	if (stderr.includes('Deleted')) {
 
 		// Log success
-		Log.standard(`Deleted ${config.id} from gcloud config`, 'success');
+		Log.success(`Deleted ${config.id} from gcloud config`);
 
 	} else {
 		throw stderr;

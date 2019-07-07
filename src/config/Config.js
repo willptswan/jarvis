@@ -70,15 +70,18 @@ exports.view = async (type) => {
 		await exports.display(configs, 'eb');
 	} else if (type === 'all') {
 
-		Log.spaced('Git Configs:', 'notice');
+		Log.spacer();
+		Log.notice('Git Configs:');
 		let configs = await exports.getFromStore(Constants.gitConfigsKey);
 		await exports.display(configs, 'git');
 
-		Log.spaced('GCP Configs:', 'notice');
+		Log.spacer();
+		Log.notice('GCP Configs:');
 		configs = await exports.getFromStore(Constants.gcpConfigsKey);
 		await exports.display(configs, 'gcp');
 
-		Log.spaced('S3 Configs:', 'notice');
+		Log.spacer();
+		Log.notice('S3 Configs:');
 		configs = await exports.getFromStore(Constants.s3ConfigsKey);
 		await exports.display(configs, 's3');
 
@@ -132,7 +135,8 @@ exports.delete = async (type, config = null, reset = false) => {
 exports.deleteAllConfigs = async (type) => {
 
 	// Log deleting all configs
-	Log.spaced(`Deleting all ${type} configs...`, 'info');
+	Log.spacer();
+	Log.info(`Deleting all ${type} configs...`);
 
 	// Work out key
 	let key;
@@ -165,7 +169,8 @@ exports.deleteAllConfigs = async (type) => {
 	}
 
 	// Log deleted all configs
-	Log.spaced(`Deleted all ${type} configs...`, 'success');
+	Log.spacer();
+	Log.success(`Deleted all ${type} configs...`);
 
 };
 
@@ -174,7 +179,6 @@ exports.updateConfigProperty = async (config, key) => {
 	if (key === 'region') {
 
  		let region = await exports.chooseAWSRegion('', `What would you like to update the region to? (${config[key]})`, config[key]);
-		console.log(region);
 		config[key] = region;
 
 	} else {
@@ -207,7 +211,8 @@ exports.display = async (configs, type, keys = null) => {
 	// Check if configs is empty
 	if (configs === undefined || configs.length === 0) {
 
-		Log.spaced(`There are currently no stored ${type} configs`, 'notice');
+		Log.spacer();
+		Log.notice(`There are currently no stored ${type} configs`);
 		Log.spacer();
 
 	} else {
@@ -238,7 +243,7 @@ exports.display = async (configs, type, keys = null) => {
 				} else if (type === 'eb') {
 					keys = ['active', 'id', 'region', 'accessKey', 'secretAccessKey'];
 				} else {
-					Log.standard('Error displaying configs', 'error');
+					Log.error('Error displaying configs');
 					throw 'Invalid config type';
 				}
 
@@ -248,7 +253,7 @@ exports.display = async (configs, type, keys = null) => {
 			keys.forEach((key) => {
 
 				// Log the key
-				Log.standard(`${key}: ${config[key]}`, 'notice');
+				Log.notice(`${key}: ${config[key]}`);
 
 			});
 
@@ -298,7 +303,8 @@ exports.setToStore = async (key, data, inArray = false) => {
 exports.idExists = async (configId, type) => {
 
 	// Log checking id
-	Log.spaced(`Checking that ${configId} is unique...`, 'info');
+	Log.spacer();
+	Log.info(`Checking that ${configId} is unique...`);
 
 	// Workout the key
 	let key;
@@ -329,7 +335,7 @@ exports.idExists = async (configId, type) => {
 		if (matchedConfigs.length !== 0 || configId === 'jarvis-dummy') {
 
 			// Log that the id is not unique
-			Log.standard(`${configId} is not a unique ${type} config id`, 'notice');
+			Log.notice(`${configId} is not a unique ${type} config id`);
 
 			// Ask for a new config id
 			let response = await Prompt.show({
@@ -341,13 +347,13 @@ exports.idExists = async (configId, type) => {
 			return await exports.idExists(response.id, type);
 
 		} else {
-			Log.standard(`${configId} is unique`, 'success');
+			Log.success(`${configId} is unique`);
 			Log.spacer();
   		return configId;
 		}
 
 	} else {
-		Log.standard(`${configId} is unique`, 'success');
+		Log.success(`${configId} is unique`);
 		Log.spacer();
 		return configId;
 	}
@@ -380,7 +386,8 @@ exports.activate = async (activeConfig, type) => {
 	if (configs !== undefined && configs.length !== 0) {
 
 		// Log activating config
-  	Log.spaced(`Activating ${activeConfig.id} ${type} config...`, 'info');
+		Log.spacer();
+  	Log.info(`Activating ${activeConfig.id} ${type} config...`);
 
 		// Create an activated variable - this will allow us to check if the passed config matches and stored configs
 		let activated = false;
@@ -407,15 +414,15 @@ exports.activate = async (activeConfig, type) => {
 			await exports.setToStore(key, configs);
 
 			// Log success
-			Log.standard(`Activated ${activeConfig.id} ${type} config...`, 'success');
+			Log.success(`Activated ${activeConfig.id} ${type} config...`);
 
 		} else {
-			Log.standard(`Error activating ${type} config`, 'error');
+			Log.error(`Error activating ${type} config`);
 			throw `No stored config with id ${activeConfig.id} found`;
 		}
 
 	} else {
-		Log.standard(`Error activating ${type} config`, 'error');
+		Log.error(`Error activating ${type} config`);
 		throw `No stored ${type} configs found`;
 	}
 
@@ -444,7 +451,8 @@ exports.deactivateAll = async (type) => {
 	if (configs !== undefined && configs.length !== 0) {
 
 		// Log deactivating all configs
-  	Log.spaced(`De-Activating all ${type} configs...`, 'info');
+		Log.spacer();
+  	Log.info(`De-Activating all ${type} configs...`);
 
 		// Update configs
 		configs = configs.map((config) => {
@@ -461,7 +469,7 @@ exports.deactivateAll = async (type) => {
 		await exports.setToStore(key, configs);
 
 		// Log success
-		Log.standard(`De-Activated all ${type} configs`, 'success');
+		Log.success(`De-Activated all ${type} configs`);
 
 	}
 
@@ -502,7 +510,7 @@ exports.getActive = async (type) => {
 		return config;
 
 	} else {
-		Log.standard(`Error getting active ${type} config`, 'error');
+		Log.error(`Error getting active ${type} config`);
 		throw `No stored ${type} configs found`;
 	}
 
@@ -532,7 +540,8 @@ exports.chooseConfig = async (type) => {
 	if (configs !== undefined && configs.length !== 0) {
 
 		// Log which config would you like
-		Log.spaced('Which config would you like?', 'notice');
+		Log.spacer();
+		Log.notice('Which config would you like?');
 
 		// Display configs
 		await exports.display(configs, type, ['id']);
@@ -551,7 +560,7 @@ exports.chooseConfig = async (type) => {
 		return config;
 
 	} else {
-		Log.standard(`Error choosing ${type} config`, 'error');
+		Log.error(`Error choosing ${type} config`);
 		throw `There are currently no stored ${type} configs`;
 	}
 
@@ -595,12 +604,12 @@ exports.getConfig = async (configId, type) => {
 			return config;
 
 		} else {
-			Log.standard(`Error getting ${type} config`, 'error');
+			Log.error(`Error getting ${type} config`);
 			throw `No ${type} configs with id ${configId} found`;
 		}
 
 	} else {
-		Log.standard(`Error getting ${type} config`, 'error');
+		Log.error(`Error getting ${type} config`);
 		throw `There are currently no stored ${type} configs`;
 	}
 
@@ -630,7 +639,8 @@ exports.updateConfigs = async (updatedConfig, type) => {
 	if (configs !== undefined && configs.length !== 0) {
 
 		// Log updating configs
-  	Log.spaced(`Updating ${updatedConfig.id} ${type} config...`, 'info');
+		Log.spacer();
+  	Log.info(`Updating ${updatedConfig.id} ${type} config...`);
 
 		// Update configs
 		configs = configs.map((config) => {
@@ -650,10 +660,10 @@ exports.updateConfigs = async (updatedConfig, type) => {
 		await exports.setToStore(key, configs);
 
 		// Log success
-		Log.standard(`Updated ${updatedConfig.id} ${type} config...`, 'success');
+		Log.success(`Updated ${updatedConfig.id} ${type} config...`);
 
 	} else {
-		Log.standard(`Error updating ${type} config`, 'error');
+		Log.error(`Error updating ${type} config`);
 		throw `No stored ${type} configs found`;
 	}
 
@@ -683,7 +693,8 @@ exports.deleteConfig = async (deleteConfig, type) => {
 	if (configs !== undefined && configs.length !== 0) {
 
 		// Log deleting config
-		Log.spaced(`Deleting ${deleteConfig.id} config...`, 'info');
+		Log.spacer();
+		Log.info(`Deleting ${deleteConfig.id} config...`);
 
 		// Filter out the config to be deleted
 		let updatedConfigs = configs.filter((config) => {
@@ -697,15 +708,15 @@ exports.deleteConfig = async (deleteConfig, type) => {
   		await exports.setToStore(key, updatedConfigs);
 
 			// Log success
-			Log.standard(`Deleted ${deleteConfig.id} config`, 'success');
+			Log.success(`Deleted ${deleteConfig.id} config`);
 
 		} else {
-			Log.standard(`Error deleting ${deleteConfig.id}`, 'error');
+			Log.error(`Error deleting ${deleteConfig.id}`);
 			throw `No stored ${type} config with id ${deleteConfig.id} was found`;
 		}
 
 	} else {
-		Log.standard(`Error deleting ${deleteConfig.id}`, 'error');
+		Log.error(`Error deleting ${deleteConfig.id}`);
 		throw `No stored ${type} configs found`;
 	}
 
@@ -719,7 +730,8 @@ exports.checkActiveConfig = async (type) => {
 	if (settings.checkActiveConfig) {
 
 		// Log checking active config
-		Log.spaced(`Checking active ${type} config...`, 'info');
+		Log.spacer();
+		Log.info(`Checking active ${type} config...`);
 
 		// Get active config
 		let config = await exports.getActive(type);
@@ -754,7 +766,7 @@ exports.checkActiveConfig = async (type) => {
 		if (response.answer.toLowerCase() === 'y') {
 
 			// Log checked
-			Log.standard(`Checked active ${type} config`, 'success');
+			Log.success(`Checked active ${type} config`);
 
 		} else {
 
@@ -793,7 +805,7 @@ exports.chooseAWSRegion = async (type, message = null, defaultRegion = null) => 
 	Log.spacer();
 
 	Constants.awsRegions.forEach((region) => {
-		Log.standard(`${region.region} - ${region.description}`, 'notice');
+		Log.notice(`${region.region} - ${region.description}`);
 	});
 
 	Log.spacer();
@@ -817,7 +829,8 @@ exports.chooseAWSRegion = async (type, message = null, defaultRegion = null) => 
 	if (regions.length !== 0) {
 		return response.region;
 	} else {
-		Log.spaced('Please choose a valid region', 'notice');
+		Log.spacer();
+		Log.notice('Please choose a valid region');
 		Log.spacer();
 		return await exports.chooseAWSRegion(type, message);
 	}

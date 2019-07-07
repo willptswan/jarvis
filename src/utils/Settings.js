@@ -32,13 +32,14 @@ exports.init = async () => {
 		}
 
 		// Log storing settings
-		Log.spaced('Initialising settings...', 'info');
+		Log.spacer();
+		Log.info('Initialising settings...');
 
 		// Store the settings
 		await store.set(Constants.settingsKey, settings);
 
 		// Log success
-		Log.standard('Initialised settings', 'success');
+		Log.success('Initialised settings');
 		Log.spacer();
 
 	} else {
@@ -58,8 +59,8 @@ exports.init = async () => {
 			if (!storedSettings.hasOwnProperty(setting)) {
 
 				// Ask for setting value
-  			let settingValue = await askForSetting(setting);
-  			settings[setting] = settingValue;
+				let settingValue = await askForSetting(setting);
+				settings[setting] = settingValue;
 
 				// Set settings initialised
 				settingsInitialised = true;
@@ -74,13 +75,14 @@ exports.init = async () => {
 		if (settingsInitialised) {
 
 			// Log storing settings
-  		Log.spaced('Initialising new settings...', 'info');
+			Log.spacer();
+  		Log.info('Initialising new settings...');
 
   		// Store the settings
   		await store.set(Constants.settingsKey, settings);
 
   		// Log success
-  		Log.standard('Initialised new settings', 'success');
+  		Log.success('Initialised new settings');
   		Log.spacer();
 
 		}
@@ -109,13 +111,14 @@ exports.update = async () => {
 	}
 
 	// Log storing settings
-	Log.spaced('Updating settings...', 'info');
+	Log.spacer();
+	Log.info('Updating settings...');
 
 	// Store the settings
 	await store.set(Constants.settingsKey, settings);
 
 	// Log success
-	Log.standard('Updated new settings', 'success');
+	Log.success('Updated new settings');
 	Log.spacer();
 
 };
@@ -124,7 +127,8 @@ exports.update = async () => {
 exports.reset = async () => {
 
 	// Log resetting
-	Log.spaced('Resetting settings...', 'info');
+	Log.spacer();
+	Log.info('Resetting settings...');
 
 	// Declare settings
 	let settings = {};
@@ -141,7 +145,7 @@ exports.reset = async () => {
 	store.set(Constants.settingsKey, settings);
 
 	// Log success
-	Log.standard('Reset settings', 'success');
+	Log.success('Reset settings');
 
 };
 
@@ -152,10 +156,16 @@ exports.get = async () => {
 
 };
 
+exports.getSync = () => {
+	let settings = store.get(Constants.settingsKey);
+	return settings;
+};
+
 exports.view = async () => {
 
 	// Log settings
-	Log.spaced('Settings:', 'notice');
+	Log.spacer();
+	Log.notice('Settings:');
 	Log.spacer();
 
 	// Get settings
@@ -164,7 +174,7 @@ exports.view = async () => {
 	// Loop through settings and display them
 	let settingsKeys = Object.keys(settings);
 	for (setting of settingsKeys) {
-		Log.standard(`${setting}: ${settings[setting]}`, 'notice');
+		Log.notice(`${setting}: ${settings[setting]}`);
 	}
 
 	// Spacer

@@ -1,19 +1,18 @@
 // Imports
 const path = require('path');
+const os = require('os');
 
 // App version
-exports.version = '1.1.1';
+exports.version = '1.2.0';
 
 // Root User Path
-// Note: This is mac specific
 exports.rootUserPath = () => {
 
-	// Get current path and split it into parts
-	let currentPath = path.resolve();
-	currentPath = currentPath.split('/');
-
-	// Join parts 2 & 3 to get /Users/username/
-	return `/${currentPath[1]}/${currentPath[2]}/`;
+	if (process.platform === exports.osWindows) {
+		return `${os.homedir()}\\`;
+	} else {
+		return `${os.homedir()}/`;
+	}
 
 };
 
@@ -24,23 +23,10 @@ exports.jarvisConfigPath = () => {
 
 };
 
-// Blue log
-exports.blueLog = '\x1b[36m%s\x1b[0m';
-
-// Green log
-exports.greenLog = '\x1b[32m%s\x1b[0m';
-
-// Yellow log
-exports.yellowLog = '\x1b[33m%s\x1b[0m';
-
-// Red log
-exports.redLog = '\x1b[31m%s\x1b[0m';
-
-// Cyan log
-exports.cyanLog = '\x1b[36m%s\x1b[0m';
-
-// White log
-exports.whiteLog = '\x1b[37m%s\x1b[0m';
+// Operating systems
+exports.osMac = 'darwin';
+exports.osWindows = 'win32';
+exports.osLinux = 'linux';
 
 // Store keys
 exports.gitConfigsKey = "git-configs";
@@ -210,7 +196,7 @@ exports.awsRegions = [
 exports.defaultSettings = {
 	checkActiveConfig: true,
 	useSCSS: false,
-	autoCheckUpdates: true
+	autoCheckUpdates: true,
 };
 
 // Valid commands
@@ -240,5 +226,10 @@ exports.validCommands = [
 	'settings-reset',
 	'settings-view',
 	'eb-init',
-	'eb-deploy'
+	'eb-deploy',
+	'cs',
+	'cs-types',
+	'cs-sections',
+	'documentation',
+	'documentation-list'
 ];

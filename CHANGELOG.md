@@ -1,5 +1,17 @@
 # Change Log
 
+#### V1.2.0
+
+- Jarvis is now cross platform, all commands should now work on macOS, Windows, and Linux
+- site-open & site-search now use the default browser instead of Chrome
+- Added cs command to display cheat sheets for languages and frameworks
+- Added cs-types command to display all available cheat sheets
+- Added cs-sections command to display a cheat sheets sections
+- Added documentation command to display documentation for langauges, frameworks, and platforms
+- Added 93 documentation types
+- Added documentation-list command to display available documentation
+- Overhauled logging system, Jarvis now uses chalk
+
 #### V1.1.1
 
 - Updated autoCheckUpdates setting default value to true

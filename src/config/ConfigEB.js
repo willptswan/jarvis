@@ -52,7 +52,8 @@ exports.delete = async (config, reset) => {
 		if (config.active && !reset) {
 
 			// Log activate another config
-			Log.spaced('Please activate an eb config', 'notice');
+			Log.spacer();
+			Log.notice('Please activate an eb config');
 
 			// Activate a new config
 			await exports.activate();
@@ -135,9 +136,10 @@ exports.activate = async (configId = null) => {
 exports.new = async () => {
 
 	// Log warning
-	Log.spaced('Elastic Beanstalk configs require your AWS IAM user to have the following roles:', 'notice');
-	Log.tabbed('- ElasticLoadBalancingFullAccess', 'notice');
-	Log.tabbed('- AWSElasticBeanstalkFullAccess', 'notice');
+	Log.spacer();
+	Log.notice('Elastic Beanstalk configs require your AWS IAM user to have the following roles:');
+	Log.notice('- ElasticLoadBalancingFullAccess', 1);
+	Log.notice('- AWSElasticBeanstalkFullAccess', 1);
 	Log.spacer();
 
 	// Ask to continue
@@ -198,13 +200,14 @@ exports.new = async () => {
 	await appendConfigFile(config);
 
 	// Log storing EB config
-	Log.spaced('Storing Elastic Beanstalk config...', 'info');
+	Log.spacer();
+	Log.info('Storing Elastic Beanstalk config...');
 
 	// Store
 	await Config.setToStore(Constants.ebConfigsKey, config, true);
 
 	// Log success
-	Log.standard('Stored Elastic Beanstalk config', 'success');
+	Log.success('Stored Elastic Beanstalk config');
 
 };
 
@@ -227,7 +230,7 @@ aws_secret_access_key=${config.secretAccessKey}`;
 	await Files.replaceContents(`${Constants.rootUserPath()}.aws/credentials`, search, '');
 
 	// Log success
-	Log.standard('Removed credentials from credentials file', 'success');
+	Log.success('Removed credentials from credentials file');
 
 }
 
@@ -239,13 +242,14 @@ async function removeConfig(config) {
 region=${config.region}`;
 
 	// Log replacing
-	Log.spaced('Removing config from config file...', 'info');
+	Log.spacer();
+	Log.info('Removing config from config file...');
 
 	// Replace config in config file
 	await Files.replaceContents(`${Constants.rootUserPath()}.aws/config`, search, '');
 
 	// Log success
-	Log.standard('Removed config from config file', 'success');
+	Log.success('Removed config from config file');
 
 }
 
@@ -271,13 +275,14 @@ async function updateEBConfig(config, oldConfig) {
 			let replace = `default_region: ${config.region}`;
 
 			// Log updating
-    	Log.spaced('Updating ./.elasticbeanstalk/config.yml file...', 'info');
+			Log.spacer();
+    	Log.info('Updating ./.elasticbeanstalk/config.yml file...');
 
     	// Update credentials file
     	await Files.replaceContents(`./.elasticbeanstalk/config.yml`, search, replace);
 
     	// Log success
-    	Log.standard('Updated ./.elasticbeanstalk/config.yml file', 'success');
+    	Log.success('Updated ./.elasticbeanstalk/config.yml file');
 
 		}
 
@@ -299,13 +304,14 @@ aws_access_key_id=${config.accessKey}
 aws_secret_access_key=${config.secretAccessKey}`;
 
 	// Log updating
-	Log.spaced('Updating credentials file...', 'info');
+	Log.spacer();
+	Log.info('Updating credentials file...');
 
 	// Update credentials file
 	await Files.replaceContents(`${Constants.rootUserPath()}.aws/credentials`, contentsOld, contents);
 
 	// Log success
-	Log.standard('Updated credentials file', 'success');
+	Log.success('Updated credentials file');
 
 }
 
@@ -327,13 +333,14 @@ region=${config.region}
   `;
 
 	// Log updating
-	Log.spaced('Updating config file...', 'info');
+	Log.spacer();
+	Log.info('Updating config file...');
 
 	// Update config file
 	await Files.replaceContents(`${Constants.rootUserPath()}.aws/config`, contentsOld, contents);
 
 	// Log success
-	Log.standard('Updated config file', 'success');
+	Log.success('Updated config file');
 
 }
 
@@ -356,14 +363,16 @@ region=${config.region}
 	if (exists) {
 
 		// Log updating config file
-		Log.spaced('Updating config file...', 'info');
+		Log.spacer();
+		Log.info('Updating config file...');
 
 		await Files.append(`${Constants.rootUserPath()}.aws/config`, contents);
 
 	} else {
 
 		// Create credentials file
-		Log.spaced('Creating config file...', 'info');
+		Log.spacer();
+		Log.info('Creating config file...');
 
 		await Files.create(`${Constants.rootUserPath()}.aws/config`, contents);
 
@@ -391,14 +400,16 @@ aws_secret_access_key=${config.secretAccessKey}
 	if (exists) {
 
 		// Log updating credentials file
-		Log.spaced('Updating credentials file...', 'info');
+		Log.spacer();
+		Log.info('Updating credentials file...');
 
 		await Files.append(`${Constants.rootUserPath()}.aws/credentials`, contents);
 
 	} else {
 
 		// Create credentials file
-		Log.spaced('Creating credentials file...', 'info');
+		Log.spacer();
+		Log.info('Creating credentials file...');
 
 		await Files.create(`${Constants.rootUserPath()}.aws/credentials`, contents);
 
@@ -416,7 +427,8 @@ async function createAWSFolder() {
 	if (!exists) {
 
 		// Log creating .aws folder
-		Log.spaced(`Creating ${Constants.rootUserPath()}.aws...`, 'info');
+		Log.spacer();
+		Log.info(`Creating ${Constants.rootUserPath()}.aws...`);
 
 		// Create .aws folder
 		await Files.makeDir(`${Constants.rootUserPath()}.aws`);

@@ -26,7 +26,7 @@ exports.handler = async (site) => {
 			});
 
 			// Log opening
-			Log.standard(`Searching ${siteInfo.name} in Chrome...`, 'info');
+			Log.info(`Searching ${siteInfo.name} in default browser...`);
 
 			// Set url
 			url = `${siteInfo.url}${siteInfo.search}${response.query}`;
@@ -40,6 +40,12 @@ exports.handler = async (site) => {
 		throw 'Please pass a valid site to search';
 	}
 
-	await exec(`open -na "Google Chrome" --args "${url}"`);
+	if (process.platform === Constants.osMac) {
+		await exec(`open "${url}"`);
+	} else if (process.platform === Constants.osWindows) {
+		await exec(`explorer "${url}"`);
+	} else if (process.platform === Constants.linux) {
+		await exec(`xdg-open "${url}"`);
+	}
 
 };

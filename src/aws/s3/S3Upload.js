@@ -150,7 +150,8 @@ async function uploadFolder(filePath, pullFiles, s3, s3Path = null, s3ACL = null
 async function upload(s3, file) {
 
 	// Log uploading
-	Log.spaced(`Uploading ${file.name} to ${file.s3Path}...`, 'info');
+	Log.spacer();
+	Log.info(`Uploading ${file.name} to ${file.s3Path}...`);
 
 	// Create the params object
 	let params = {
@@ -171,10 +172,10 @@ async function upload(s3, file) {
 
 	// Check for any errors
 	if (err) {
-		Log.standard(`There was an error uploading ${file.name} to ${file.s3Path}`, 'error');
+		Log.error(`There was an error uploading ${file.name} to ${file.s3Path}`);
 		throw err;
 	} else {
-		Log.standard(`${file.name} uploaded to ${file.s3Path}`, 'success');
+		Log.success(`${file.name} uploaded to ${file.s3Path}`);
 	}
 
 }
@@ -198,7 +199,8 @@ async function askForPath(fileName) {
 	}
 
 	// Log the path
-	Log.spaced(`~/${path}`, 'notice');
+	Log.spacer();
+	Log.notice(`~/${path}`);
 	Log.spacer();
 
 	// Ask if this is correct
@@ -235,7 +237,7 @@ async function askForACL(type) {
 	// Display valid ACLs
 	Log.spacer();
 	Constants.s3ACLs.forEach((acl) => {
-		Log.standard(acl, 'notice');
+		Log.notice(acl);
 	});
 	Log.spacer();
 
@@ -255,7 +257,7 @@ async function askForACL(type) {
 	if (Constants.s3ACLs.includes(response.acl)) {
 		return response.acl;
 	} else {
-		Log.standard('Please enter a valid ACL', 'notice');
+		Log.notice('Please enter a valid ACL');
 		return await askForACL(type);
 	}
 

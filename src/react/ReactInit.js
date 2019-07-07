@@ -56,7 +56,8 @@ exports.handler = async (projectName) => {
 	await GitInit.handler();
 
 	// Log starting initialising
-	Log.spaced(`Initialising react project ${projectName}...`, 'info');
+	Log.spacer();
+	Log.info(`Initialising react project ${projectName}...`);
 
 	// Get settings
 	let settings = await Settings.get();
@@ -100,7 +101,8 @@ exports.handler = async (projectName) => {
 async function displayInitialSteps(projectName) {
 
 	// Check that an empty github repo has already been created
-	Log.spaced('Please make sure that an empty repo has already been created on GitHub for this project.', 'notice');
+	Log.spacer();
+	Log.notice('Please make sure that an empty repo has already been created on GitHub for this project.');
 
 	// Ask if we want to continue
 	let response = await Prompt.show({
@@ -120,7 +122,8 @@ async function displayInitialSteps(projectName) {
 async function createFolders(projectName) {
 
 	// Log creating folders
-	Log.spaced('Creating folders...', 'info');
+	Log.spacer();
+	Log.info('Creating folders...');
 
 	// Create build folder
 	await Files.makeDir('./build');
@@ -155,7 +158,8 @@ async function createFolders(projectName) {
 async function createConfigFiles(projectName, useSCSS) {
 
 	// Log creating config files
-	Log.spaced('Creating config files...', 'info');
+	Log.spacer();
+	Log.info('Creating config files...');
 
 	// Create .babelrc
 	await Files.create('./.babelrc', BabelRC.template());
@@ -188,7 +192,8 @@ async function createConfigFiles(projectName, useSCSS) {
 async function createGitFiles(projectName) {
 
 	// Log creating git files
-	Log.spaced('Creating git files...', 'info');
+	Log.spacer();
+	Log.info('Creating git files...');
 
 	// Create .gitignore
 	await Files.create('./.gitignore', GitIgnore.template());
@@ -215,7 +220,8 @@ async function createGaeFiles(projectName) {
 	if (response.answer.toLowerCase() === 'y') {
 
 		// Log creating gae files
-		Log.spaced('Creating gae files...', 'info');
+		Log.spacer();
+		Log.info('Creating gae files...');
 
 		// Create app.yaml
 		await Files.create('./app.yaml', AppYaml.template());
@@ -250,7 +256,8 @@ async function createEBFiles(projectName) {
 async function createAppFiles(projectName, useSCSS) {
 
 	// Log creating app files
-	Log.spaced('Creating app files...', 'info');
+	Log.spacer();
+	Log.info('Creating app files...');
 
 	// Create index.html
 	await Files.create('./index.html', IndexHTML.template());
@@ -386,7 +393,8 @@ async function createPageNotFoundViewComponent(projectName, useSCSS) {
 async function createUtilFiles(projectName) {
 
 	// Log creating util files
-	Log.spaced('Creating util files...', 'info');
+	Log.spacer();
+	Log.info('Creating util files...');
 
 	// Create ./src/utils/Environment.js
 	await Files.create('./src/utils/Environment.js', Environment.template());
@@ -397,7 +405,8 @@ async function createUtilFiles(projectName) {
 async function executePackageInstalls(projectName) {
 
 	// Log installing npm packages
-	Log.spaced('Installing npm packages...', 'info');
+	Log.spacer();
+	Log.info('Installing npm packages...');
 
 	// Install npm packages
 	const { stdout, stderr } = await exec('npm install');
@@ -407,16 +416,16 @@ async function executePackageInstalls(projectName) {
 
 		// Check if error was warning
 		if (stderr.includes('WARN')) {
-			Log.standard(`NPM Warning: ${stderr}`, 'notice');
+			Log.notice(`NPM Warning: ${stderr}`);
 		} else {
-			Log.standard(`NPM Error: ${stderr}`, 'error');
+			Log.error(`NPM Error: ${stderr}`);
 		}
 
 	}
 
 	// Check if packages were installed
 	if (stdout.includes('added')) {
-		Log.standard('Installed npm packages', 'success');
+		Log.success('Installed npm packages');
 	}
 
 }
@@ -435,13 +444,14 @@ async function runTests(projectName) {
 	if (response.answer.toLowerCase() === 'y') {
 
 		// Log running npm tests
-		Log.spaced('Running npm tests...', 'info');
+		Log.spacer();
+		Log.info('Running npm tests...');
 
 		// Run tests
 		const { stdout, stderr } = await exec('npm run test');
 
 		// Log results
-		Log.standard(stderr, 'notice');
+		Log.notice(stderr);
 
 	}
 
@@ -469,9 +479,10 @@ async function buildAndRun(projectName) {
 // Display next steps
 async function displayNextSteps(projectName) {
 
-	Log.spaced(`${projectName} initialisation finished`, 'success');
-	Log.standard('Next Steps:', 'notice');
-	Log.tabbed('1. Set constants in src/utils/Environment.js', 'notice');
+	Log.spacer();
+	Log.success(`${projectName} initialisation finished`);
+	Log.notice('Next Steps:');
+	Log.notice('1. Set constants in src/utils/Environment.js');
 	Log.spacer();
 
 }

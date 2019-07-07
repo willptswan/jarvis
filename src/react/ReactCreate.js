@@ -15,7 +15,8 @@ exports.handler = async (componentName) => {
 	let settings = await Settings.get();
 
 	// Log creating component
-	Log.spaced(`Creating ${componentName}...`, 'info');
+	Log.spacer();
+	Log.info(`Creating ${componentName}...`);
 
 	// Create component folder
 	await Files.makeDir(`./${componentName}`);
@@ -42,7 +43,8 @@ exports.handler = async (componentName) => {
 	await Files.create(`./${componentName}/index.js`, ComponentIndex.template(componentName));
 
 	// Log finished
-	Log.spaced(`Finished creating ${componentName}`, 'success');
+	Log.spacer();
+	Log.success(`Finished creating ${componentName}`);
 
 };
 

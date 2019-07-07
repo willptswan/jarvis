@@ -77,7 +77,7 @@ exports.replaceContents = async (file, search, replacement) => {
 		await exports.overwrite(file, fileContents);
 
 	} else {
-		Log.standard(`Error replacing contents of ${file}`, 'error');
+		Log.error(`Error replacing contents of ${file}`);
 		throw `${file} doesn't exist`;
 	}
 
@@ -98,14 +98,14 @@ exports.delete = async (file) => {
 
 		// Check if there was an error
 		if (err) {
-			Log.standard(`Error deleting ${file}`, 'error');
+			Log.error(`Error deleting ${file}`);
 			throw err;
 		} else {
 			return true;
 		}
 
 	} else {
-		Log.standard(`Error deleting ${file}`, 'error');
+		Log.error(`Error deleting ${file}`);
 		throw `${file} doesn't exist`;
 	}
 
@@ -125,14 +125,14 @@ exports.load = async (fileName) => {
 
 		// Check if there was an error
 		if (file.includes('Error:')) {
-			Log.standard(`Error loading ${fileName}`, 'error');
+			Log.error(`Error loading ${fileName}`);
 			throw file;
 		} else {
 			return file;
 		}
 
 	} else {
-		Log.standard(`Error loading ${fileName}`, 'error');
+		Log.error(`Error loading ${fileName}`);
 		throw `${fileName} doesn't exist`;
 	}
 
@@ -149,7 +149,7 @@ exports.overwrite = async (file, contents) => {
 
 	// Check if there was an error
 	if (err) {
-		Log.standard(`Error overwriting ${file}`, 'error');
+		Log.error(`Error overwriting ${file}`);
 		throw err;
 	} else {
 		return true;
@@ -174,10 +174,10 @@ exports.create = async (file, contents) => {
 
 		// Check if there was an error
 		if (err) {
-			Log.standard(`Error creating ${file}`, 'error');
+			Log.error(`Error creating ${file}`);
 			throw err;
 		} else {
-			Log.standard(`Created ${file}`, 'success');
+			Log.success(`Created ${file}`);
 			return true;
 		}
 
@@ -199,15 +199,15 @@ exports.append = async (file, contents) => {
 
 		// Check if there was an error
 		if (err) {
-			Log.standard(`Error appending to ${file}`, 'error');
+			Log.error(`Error appending to ${file}`);
 			throw err;
 		} else {
-			Log.standard(`Updated ${file}`, 'success');
+			Log.success(`Updated ${file}`);
 			return true;
 		}
 
 	} else {
-		Log.standard(`Error appending to ${file}`, 'error');
+		Log.error(`Error appending to ${file}`);
 		throw `${file} doesn't exist`;
 	}
 
@@ -230,10 +230,10 @@ exports.makeDir = async (folder) => {
 
 		// Check if there was an error
 		if (err) {
-			Log.standard(`Error creating ${folder}`, 'error');
+			Log.error(`Error creating ${folder}`);
 			throw err;
 		} else {
-			Log.standard(`Created ${folder}`, 'success');
+			Log.success(`Created ${folder}`);
 			return true;
 		}
 

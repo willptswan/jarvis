@@ -6,7 +6,8 @@ const Constants = require('../utils/Constants');
 exports.handler = () => {
 
 	// Title
-	Log.spaced('Jarvis CLI Help');
+	Log.spacer();
+	Log.standard('Jarvis CLI Help');
 
 	// Version
 	Log.standard(`Version: ${Constants.version}`);
@@ -18,18 +19,18 @@ exports.handler = () => {
 	Log.standard('General:');
 
 	// Version
-	Log.tabbed('version', 'info');
-	Log.tabbed('Display the current version of Jarvis', 'notice');
+	Log.info('version', 1);
+	Log.notice('Display the current version of Jarvis', 1);
 	Log.spacer();
 
 	// Help
-	Log.tabbed('help', 'info');
-	Log.tabbed('List all of the commands that Jarvis is capable of', 'notice');
+	Log.info('help', 1);
+	Log.notice('List all of the commands that Jarvis is capable of', 1);
 	Log.spacer();
 
 	// Reset
-	Log.tabbed('reset', 'info');
-	Log.tabbed('Reset Jarvis, this deletes all stored configs and resets all settings', 'notice');
+	Log.info('reset', 1);
+	Log.notice('Reset Jarvis, this deletes all stored configs and resets all settings', 1);
 	Log.spacer();
 
 	/*
@@ -38,28 +39,28 @@ exports.handler = () => {
 	Log.standard('Config:');
 
 	// Config-new
-	Log.tabbed('config-new <type>', 'info');
-	Log.tabbed('Create and store a new config, valid arguments are git, gcp, s3, eb', 'notice');
+	Log.info('config-new <type>', 1);
+	Log.notice('Create and store a new config, valid arguments are git, gcp, s3, eb', 1);
 	Log.spacer();
 
 	// Config-delete
-	Log.tabbed('config-delete <type>', 'info');
-	Log.tabbed('Delete a stored config, valid arguments are git, gcp, s3, eb', 'notice');
+	Log.info('config-delete <type>', 1);
+	Log.notice('Delete a stored config, valid arguments are git, gcp, s3, eb', 1);
 	Log.spacer();
 
 	// Config-update
-	Log.tabbed('config-update <type>', 'info');
-	Log.tabbed('Update a stored config, valid arguments are git, gcp, s3, eb', 'notice');
+	Log.info('config-update <type>', 1);
+	Log.notice('Update a stored config, valid arguments are git, gcp, s3, eb', 1);
 	Log.spacer();
 
 	// Config-switch
-	Log.tabbed('config-switch <type>', 'info');
-	Log.tabbed('Switch between stored configs, valid arguments are git, gcp, s3, eb', 'notice');
+	Log.info('config-switch <type>', 1);
+	Log.notice('Switch between stored configs, valid arguments are git, gcp, s3, eb', 1);
 	Log.spacer();
 
 	// Config-view
-	Log.tabbed('config-view <type>', 'info');
-	Log.tabbed('View all stored configs, valid arguments are git, gcp, s3, eb, all', 'notice');
+	Log.info('config-view <type>', 1);
+	Log.notice('View all stored configs, valid arguments are git, gcp, s3, eb, all', 1);
 	Log.spacer();
 
 	/*
@@ -68,25 +69,25 @@ exports.handler = () => {
 	Log.standard('React:');
 
 	// React-init
-	Log.tabbed('react-init <projectName>', 'info');
-	Log.tabbed('Initialise a complete boilerplate react project', 'notice');
-	Log.tabbed('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 'notice');
+	Log.info('react-init <projectName>', 1);
+	Log.notice('Initialise a complete boilerplate react project', 1);
+	Log.notice('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 1);
 	Log.spacer();
 
 	// React-create
-	Log.tabbed('react-create <componentName>', 'info');
-	Log.tabbed('Create a new boilerplate react component', 'notice');
-	Log.tabbed('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 'notice');
+	Log.info('react-create <componentName>', 1);
+	Log.notice('Create a new boilerplate react component', 1);
+	Log.notice('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 1);
 	Log.spacer();
 
 	// React-deploy
-	Log.tabbed('react-deploy <platform> <version>', 'info');
-	Log.tabbed('Deploy a react project, valid platforms are gae, eb', 'notice');
+	Log.info('react-deploy <platform> <version>', 1);
+	Log.notice('Deploy a react project, valid platforms are gae, eb', 1);
 	Log.spacer();
 
 	// React-build
-	Log.tabbed('react-build', 'info');
-	Log.tabbed('Build and run a project in the dev environment', 'notice');
+	Log.info('react-build', 1);
+	Log.notice('Build and run a project in the dev environment', 1);
 	Log.spacer();
 
 	/*
@@ -95,23 +96,23 @@ exports.handler = () => {
 	Log.standard('Git:');
 
 	// Git-push
-	Log.tabbed('git-push <version> [files]', 'info');
-	Log.tabbed('Add, commit, and push changes to GitHub', 'notice');
+	Log.info('git-push <version> [files]', 1);
+	Log.notice('Add, commit, and push changes to GitHub', 1);
 	Log.spacer();
 
 	// Git-pull
-	Log.tabbed('git-pull', 'info');
-	Log.tabbed('Pull changes from a GitHub repo', 'notice');
+	Log.info('git-pull', 1);
+	Log.notice('Pull changes from a GitHub repo', 1);
 	Log.spacer();
 
 	// Git-clone
-	Log.tabbed('git-clone <repoName>', 'info');
-	Log.tabbed('Clone a repo from GitHub', 'notice');
+	Log.info('git-clone <repoName>', 1);
+	Log.notice('Clone a repo from GitHub', 1);
 	Log.spacer();
 
 	// Git-init
-	Log.tabbed('git-init', 'info');
-	Log.tabbed('Initialise a git directory', 'notice');
+	Log.info('git-init', 1);
+	Log.notice('Initialise a git directory', 1);
 	Log.spacer();
 
 	/*
@@ -120,8 +121,8 @@ exports.handler = () => {
 	Log.standard('GCP:');
 
 	// Gae-deploy
-	Log.tabbed('gae-deploy <version>', 'info');
-	Log.tabbed('Deploy a new version to Google App Engine', 'notice');
+	Log.info('gae-deploy <version>', 1);
+	Log.notice('Deploy a new version to Google App Engine', 1);
 	Log.spacer();
 
 	/*
@@ -130,24 +131,24 @@ exports.handler = () => {
 	Log.standard('AWS:');
 
 	// S3-bundle-upload
-	Log.tabbed('s3-bundle-upload', 'info');
-	Log.tabbed('Upload the css and js bundle for a project to S3', 'notice');
+	Log.info('s3-bundle-upload', 1);
+	Log.notice('Upload the css and js bundle for a project to S3', 1);
 	Log.spacer();
 
 	// S3-upload
-	Log.tabbed('s3-upload <filePath> -p', 'info');
-	Log.tabbed('Upload a file to S3, multiple files can be uploaded by putting them in a folder', 'notice');
-	Log.tabbed('Add -p to the command if you are passing the path to a folder but only want the contents of the folder to be uploaded', 'notice');
+	Log.info('s3-upload <filePath> -p', 1);
+	Log.notice('Upload a file to S3, multiple files can be uploaded by putting them in a folder', 1);
+	Log.notice('Add -p to the command if you are passing the path to a folder but only want the contents of the folder to be uploaded', 1);
 	Log.spacer();
 
 	// Eb-init
-	Log.tabbed('eb-init <applicationName>', 'info');
-	Log.tabbed('Initialise an Elastic Beanstalk application and environment', 'notice');
+	Log.info('eb-init <applicationName>', 1);
+	Log.notice('Initialise an Elastic Beanstalk application and environment', 1);
 	Log.spacer();
 
 	// Eb-deploy
-	Log.tabbed('eb-deploy <version>', 'info');
-	Log.tabbed('Deploy an application to Elastic Beanstalk', 'notice');
+	Log.info('eb-deploy <version>', 1);
+	Log.notice('Deploy an application to Elastic Beanstalk', 1);
 	Log.spacer();
 
 	/*
@@ -156,29 +157,29 @@ exports.handler = () => {
 	Log.standard('Site:');
 
 	// Site-open
-	Log.tabbed('site-open <site>', 'info');
-	Log.tabbed('Open a website in a new browser tab, you can pass the full url for the website', 'notice');
-	Log.tabbed('You can also use the following short hand sites:', 'notice');
-	Log.tabbed('	so - Stack Overflow', 'notice');
-	Log.tabbed('	npm - NPM', 'notice');
-	Log.tabbed('	cocoa - CocoaPods', 'notice');
-	Log.tabbed('	g - Google', 'notice');
-	Log.tabbed('	awe - Awesome', 'notice');
-	Log.tabbed('	gh - GitHub', 'notice');
-	Log.tabbed('	css - CSS Tricks', 'notice');
-	Log.tabbed('	m - Medium', 'notice');
+	Log.info('site-open <site>', 1);
+	Log.notice('Open a website in a new browser tab, you can pass the full url for the website', 1);
+	Log.notice('You can also use the following short hand sites:', 1);
+	Log.notice('so - Stack Overflow', 2);
+	Log.notice('npm - NPM', 2);
+	Log.notice('cocoa - CocoaPods', 2);
+	Log.notice('g - Google', 2);
+	Log.notice('awe - Awesome', 2);
+	Log.notice('gh - GitHub', 2);
+	Log.notice('css - CSS Tricks', 2);
+	Log.notice('m - Medium', 2);
 	Log.spacer();
 
 	// Site-search
-	Log.tabbed('site-search <site>', 'info');
-	Log.tabbed('Search a website', 'notice');
-	Log.tabbed('Valid sites are:', 'notice');
-	Log.tabbed('	so - Stack Overflow', 'notice');
-	Log.tabbed('	npm - NPM', 'notice');
-	Log.tabbed('	g - Google', 'notice');
-	Log.tabbed('	gh - GitHub', 'notice');
-	Log.tabbed('	css - CSS Tricks', 'notice');
-	Log.tabbed('	m - Medium', 'notice');
+	Log.info('site-search <site>', 1);
+	Log.notice('Search a website', 1);
+	Log.notice('Valid sites are:', 1);
+	Log.notice('so - Stack Overflow', 2);
+	Log.notice('npm - NPM', 2);
+	Log.notice('g - Google', 2);
+	Log.notice('gh - GitHub', 2);
+	Log.notice('css - CSS Tricks', 2);
+	Log.notice('m - Medium', 2);
 	Log.spacer();
 
 	/*
@@ -187,18 +188,55 @@ exports.handler = () => {
 	Log.standard('Settings:');
 
 	// Settings-update
-	Log.tabbed('settings-update', 'info');
-	Log.tabbed('Update the settings', 'notice');
+	Log.info('settings-update', 1);
+	Log.notice('Update the settings', 1);
 	Log.spacer();
 
 	// Settings-reset
-	Log.tabbed('settings-reset', 'info');
-	Log.tabbed('Reset settings to default values', 'notice');
+	Log.info('settings-reset', 1);
+	Log.notice('Reset settings to default values', 1);
 	Log.spacer();
 
 	// Settings-view
-	Log.tabbed('settings-view', 'info');
-	Log.tabbed('View all of your current settings', 'notice');
+	Log.info('settings-view', 1);
+	Log.notice('View all of your current settings', 1);
+	Log.spacer();
+
+	/*
+	 * Cheat sheet
+	*/
+	Log.standard('Cheat Sheets:');
+
+	// Cs
+	Log.info('cs <type> [section]', 1);
+	Log.notice('e.g. cs javascript basic-objects', 1);
+	Log.notice('Display the cheat sheet for a language or framework, the section is optional', 1);
+	Log.spacer();
+
+	// Cs-types
+	Log.info('cs-types', 1);
+	Log.notice('Display the available cheat sheets', 1);
+	Log.spacer();
+
+	// Cs-sections
+	Log.info('cs-sections <type>', 1);
+	Log.notice('Display the available sections for a cheat sheet', 1);
+	Log.spacer();
+
+	/*
+	 * Documentation
+	*/
+
+	Log.standard('Documentation:');
+
+	// Documentation
+	Log.info('documentation <type>', 1);
+	Log.notice('Open documentation for a language, framework, or platform in your browser', 1);
+	Log.spacer();
+
+	// Documentation-list
+	Log.info('documentation-list', 1);
+	Log.notice('Display a list of all available documentation types', 1);
 	Log.spacer();
 
 	// Spacer at the end

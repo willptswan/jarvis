@@ -29,13 +29,14 @@ exports.handler = async (version, files = null, checkGitConfig = true) => {
 async function pushChanges() {
 
 	// Log pushing changes
-	Log.spaced('Pushing changes...', 'info');
+	Log.spacer();
+	Log.info('Pushing changes...');
 
 	// Push changes
 	const { stdout, stderr } = await exec('git push -u origin master');
 
 	// Nothing really to check for here, if there is an error it will exit the process so just log success
-	Log.standard('Changes pushed', 'success');
+	Log.success('Changes pushed');
 
 }
 
@@ -43,7 +44,8 @@ async function pushChanges() {
 async function commitChanges(version) {
 
 	// Log commiting version
-	Log.spaced(`Committing version ${version}...`, 'info');
+	Log.spacer();
+	Log.info(`Committing version ${version}...`);
 
 	// Commit version
 	const { stdout, stderr } = await exec(`git commit -m "${version}"`);
@@ -52,7 +54,7 @@ async function commitChanges(version) {
 	if (stderr) {
 		throw stderr;
 	} else {
-		Log.standard(`Version ${version} committed`, 'success');
+		Log.success(`Version ${version} committed`);
 	}
 
 }
@@ -61,7 +63,8 @@ async function commitChanges(version) {
 async function addFiles(files) {
 
 	// Log adding files
-	Log.spaced('Adding files...', 'info');
+	Log.spacer();
+	Log.info('Adding files...');
 
 	// Check if any files were passed
 	let addFiles = '-A';
@@ -76,7 +79,7 @@ async function addFiles(files) {
 	if (stderr) {
 		throw stderr;
 	} else {
-		Log.standard('Files added', 'success');
+		Log.success('Files added');
 	}
 
 }

@@ -20,7 +20,8 @@ exports.check = async () => {
 		if (check) {
 
 			// Log checking for updates
-			Log.spaced('Checking for updates...', 'info');
+			Log.spacer();
+			Log.info('Checking for updates...');
 
 			// Get the latest version
 			let latestVersion = await LatestVersion('@willptswan/jarvis');
@@ -29,9 +30,10 @@ exports.check = async () => {
 			if (latestVersion !== Constants.version) {
 
 				// Log new version available
-				Log.spaced(`Jarvis version ${latestVersion} is now availble`, 'notice');
-				Log.standard(`To update to the latest version run:`, 'notice');
-				Log.spaced('npm install -g @willptswan/jarvis', 'notice');
+				Log.spacer();
+				Log.notice(`Jarvis version ${latestVersion} is now availble`);
+				Log.notice(`To update to the latest version run:`);
+				Log.notice('npm install -g @willptswan/jarvis');
 
 			}
 

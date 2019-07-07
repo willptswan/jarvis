@@ -36,6 +36,10 @@ const SiteSearch = require('./src/site/SiteSearch');
 
 const Config = require('./src/config/Config');
 
+const CheatSheet = require('./src/cheatsheet/CheatSheet');
+
+const Documentation = require('./src/documentation/Documentation');
+
 /*
  * General Commands
 */
@@ -64,7 +68,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		Reset.handler().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -79,7 +83,7 @@ Program
 	.action(async (type) => {
 		await preCommand();
 		Config.new(type.toLowerCase()).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -90,7 +94,7 @@ Program
 	.action(async (type) => {
 		await preCommand();
 		Config.delete(type.toLowerCase()).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -101,7 +105,7 @@ Program
 	.action(async (type) => {
 		await preCommand();
 		Config.view(type.toLowerCase()).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -112,7 +116,7 @@ Program
 	.action(async (type) => {
 		await preCommand();
 		Config.update(type.toLowerCase()).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -123,7 +127,7 @@ Program
 	.action(async (type) => {
 		await preCommand();
 		Config.switch(type.toLowerCase()).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -139,7 +143,7 @@ Program
 	.action(async (projectName) => {
 		await preCommand();
 		ReactInit.handler(projectName).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -150,7 +154,7 @@ Program
 	.action(async (componentName) => {
 		await preCommand();
 		ReactCreate.handler(componentName).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -161,7 +165,7 @@ Program
 	.action(async (platform, version) => {
 		await preCommand();
 		ReactDeploy.handler(version, platform).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -172,7 +176,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		ReactBuild.handler().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -187,7 +191,7 @@ Program
 	.action(async (version, files) => {
 		await preCommand();
 		GitPush.handler(version, files).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -198,7 +202,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		GitPull.handler().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -209,7 +213,7 @@ Program
 	.action(async (repoName) => {
 		await preCommand();
 		GitClone.handler(repoName).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -220,7 +224,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		GitInit.handler().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -235,7 +239,7 @@ Program
 	.action(async (version) => {
 		await preCommand();
 		GAEDeploy.handler(version).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -250,7 +254,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		S3BundleUpload.handler().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -262,7 +266,7 @@ Program
 	.action(async (filePath, cmd) => {
 		await preCommand();
 		S3Upload.handler(filePath, cmd.P).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -273,7 +277,7 @@ Program
 	.action(async (applicationName) => {
 		await preCommand();
 		EBInit.handler(applicationName).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -284,7 +288,7 @@ Program
 	.action(async (version) => {
 		await preCommand();
 		EBDeploy.handler(version).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -299,7 +303,7 @@ Program
 	.action(async (site) => {
 		await preCommand();
 		SiteOpen.handler(site).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -310,7 +314,7 @@ Program
 	.action(async (site) => {
 		await preCommand();
 		SiteSearch.handler(site).catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -325,7 +329,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		Settings.update().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -336,7 +340,7 @@ Program
 	.action(async () => {
 		await preCommand();
 		Settings.reset().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -347,7 +351,69 @@ Program
 	.action(async () => {
 		await preCommand();
 		Settings.view().catch((err) => {
-			Log.standard(err, 'error');
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+/*
+ * Cheat Sheet
+*/
+
+// Cs
+Program
+	.command('cs <type> [section]')
+	.action(async (type, section) => {
+		await preCommand();
+		CheatSheet.display(type, section).catch((err) => {
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+// Cs-types
+Program
+	.command('cs-types')
+	.action(async () => {
+		await preCommand();
+		CheatSheet.types().catch((err) => {
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+// Cs-sections
+Program
+	.command('cs-sections <type>')
+	.action(async (type) => {
+		await preCommand();
+		CheatSheet.sections(type).catch((err) => {
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+/*
+ * Documentation
+*/
+
+// Documentation
+Program
+	.command('documentation <type>')
+	.action(async (type) => {
+		await preCommand();
+		Documentation.view(type).catch((err) => {
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+Program
+	.command('documentation-list')
+	.action(async () => {
+		await preCommand();
+		Documentation.list().catch((err) => {
+			Log.error(err);
 		});
 		await postCommand();
 	});
@@ -361,7 +427,7 @@ async function preCommand() {
 
 	// Check if settings have been initialised and init them if they haven't
 	await Settings.init().catch((err) => {
-		Log.standard(err, 'error');
+		Log.error(err);
 	});
 
 }
@@ -371,7 +437,7 @@ async function postCommand() {
 
 	// Check for updates
 	await Update.check().catch((err) => {
-		Log.standard(err, 'error');
+		Log.error(err);
 	});
 
 }

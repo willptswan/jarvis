@@ -24,7 +24,7 @@ exports.show = async (config) => {
 			return response;
 
 		} catch (err) {
-			Log.standard('Failed to show prompt', 'error');
+			Log.error('Failed to show prompt');
 			throw err;
 		}
 
@@ -43,21 +43,21 @@ function checkConfig(config) {
 	if (config.name !== '' && config.name !== null && typeof(config.name) !== 'undefined') {
 		nameCheck = true;
 	} else {
-		Log.standard('Invalid name value in Prompt config', 'error');
+		Log.error('Invalid name value in Prompt config');
 	}
 
 	// Check message
 	if (config.message !== '' && config.message !== null && typeof(config.message) !== 'undefined') {
 		messageCheck = true;
 	} else {
-		Log.standard('Invalid message value in Prompt config', 'error');
+		Log.error('Invalid message value in Prompt config');
 	}
 
 	// Check required
 	if (config.required === true || config.required === false) {
 		requiredCheck = true;
 	} else {
-		Log.standard('Invalid required value in Prompt config', 'error');
+		Log.error('Invalid required value in Prompt config');
 	}
 
 	// Check if all checks passed

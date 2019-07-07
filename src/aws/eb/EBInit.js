@@ -22,7 +22,8 @@ exports.handler = async (applicationName, checkGitConfig = true) => {
 	await createConfigFile();
 
 	// Push elasticbeanstalk folder to github
-	Log.spaced('Pushing .ebextensions folder to github...', 'info');
+	Log.spacer();
+	Log.info('Pushing .ebextensions folder to github...');
 	await GitPush.handler('0.0.1', ['.ebextensions'], checkGitConfig);
 
 	// Create environment
@@ -34,7 +35,8 @@ exports.handler = async (applicationName, checkGitConfig = true) => {
 async function init(config, applicationName) {
 
 	// Log initialising application
-	Log.spaced(`Initialising ${applicationName} application...`, 'info');
+	Log.spacer();
+	Log.info(`Initialising ${applicationName} application...`);
 
 	// Run init
 	const { stdout, stderr } = await exec(`eb init ${applicationName} --platform node.js --profile ${config.id} --region ${config.region}`);
@@ -42,7 +44,7 @@ async function init(config, applicationName) {
 	// Check that the application was initialised
 	let exists = await Files.exists('./.elasticbeanstalk/config.yml');
 	if (exists) {
-		Log.standard(`Initialised ${applicationName} application`, 'success');
+		Log.success(`Initialised ${applicationName} application`);
 	} else {
 		throw 'Error initialising Elastic Beanstalk Application';
 	}
@@ -53,7 +55,8 @@ async function init(config, applicationName) {
 async function createConfigFile() {
 
 	// Log creating
-	Log.spaced('Creating environment config file...', 'info');
+	Log.spacer();
+	Log.info('Creating environment config file...');
 
 	// Format contents
 	let contents = `option_settings:
@@ -69,16 +72,17 @@ async function createConfigFile() {
 async function createEnvironment() {
 
 	// Log creating
-	Log.spaced('Creating environment (this may take a few minutes)...', 'info');
+	Log.spacer();
+	Log.info('Creating environment (this may take a few minutes)...');
 
 	// Create
 	const { stdout, stderr } = await exec('eb create prod');
 
 	// Check if successfull
 	if (stdout.includes('Successfully launched environment')) {
-		Log.standard('Created environment', 'success');
+		Log.success('Created environment');
 	} else {
-		Log.standard('Error creating environment', 'error');
+		Log.error('Error creating environment');
 		throw stdout;
 	}
 

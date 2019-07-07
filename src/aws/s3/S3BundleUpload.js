@@ -47,7 +47,8 @@ exports.handler = async (ignoreConfigCheck = false) => {
 async function uploadFile(s3, path, name) {
 
 	// Log uploading
-	Log.spaced(`Uploading ${name}...`, 'info');
+	Log.spacer();
+	Log.info(`Uploading ${name}...`);
 
 	// Work out the mime type
 	let mime = "text/plain";
@@ -71,10 +72,10 @@ async function uploadFile(s3, path, name) {
 
 	// Check for any errors
 	if (err) {
-		Log.standard(`There was an error uploading ${name}`, 'error');
+		Log.error(`There was an error uploading ${name}`);
 		throw err;
 	} else {
-		Log.standard(`${name} uploaded`, 'success');
+		Log.success(`${name} uploaded`);
 	}
 
 }

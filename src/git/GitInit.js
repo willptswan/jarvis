@@ -8,17 +8,18 @@ const exec = util.promisify(require('child_process').exec);
 exports.handler = async () => {
 
 	// Log installing npm packages
-	Log.spaced('Initialising git...', 'info');
+	Log.spacer();
+	Log.info('Initialising git...');
 
 	// Install npm packages
 	const { stdout, stderr } = await exec('git init');
 
 	// Check for error
 	if (stderr) {
-		Log.standard('Error initialising git', 'error');
+		Log.error('Error initialising git');
 		throw stderr;
 	} else {
-		Log.standard('Git initialised', 'success');
+		Log.success('Git initialised');
 	}
 
 	// Switch git config - this makes sure we have the correct active config and repo

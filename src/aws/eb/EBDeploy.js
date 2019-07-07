@@ -20,16 +20,17 @@ exports.handler = async (version, pushGit = true) => {
 	}
 
 	// Log deploying
-	Log.spaced(`Deploying ${version} to Elastic Beanstalk...`, 'info');
+	Log.spacer();
+	Log.info(`Deploying ${version} to Elastic Beanstalk...`);
 
 	// Deploy
 	const { stdout, stderr } = await exec(`eb deploy prod --message "${version}"`);
 
 	// Check if successfull
 	if (stdout.includes('New application version was deployed')) {
-		Log.standard(`Deployed ${version} to Elastic Beanstalk`, 'success');
+		Log.success(`Deployed ${version} to Elastic Beanstalk`);
 	} else {
-		Log.standard(`Error deploying ${version} to Elastic Beanstalk`, 'error');
+		Log.error(`Error deploying ${version} to Elastic Beanstalk`);
 		throw stdout;
 	}
 

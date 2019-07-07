@@ -2,15 +2,7 @@
 
 # Jarvis CLI
 
-Jarvis is a continually growing CLI that helps with routine tasks and speeds up a few things.
-
-To learn how to install and use Jarvis:
-
-[Medium - How to Set Up and Use Jarvis — The CLI That Makes Your Life Easier](https://medium.com/better-programming/how-to-set-up-use-jarvis-the-cli-that-makes-your-life-easier-54fa6d7e83b)
-
-To find out more about why I created this project:
-
-[Medium - Building A CLI To Help Manage GitHub Accounts, React Projects, And More…](https://medium.com/@willptswan/building-a-cli-to-help-manage-github-accounts-react-projects-and-more-2755259be493)
+Jarvis is a continually growing cross-platform CLI that helps with routine tasks and speeds up a few things.
 
 Currently, Jarvis can:
 
@@ -28,6 +20,8 @@ Currently, Jarvis can:
 - Search websites
 - Upload files and folders to S3
 - Initialise and deploy Elastic Beanstalk applications
+- Display cheat sheets
+- Open documentation for languages, frameworks, and platforms in your browser
 
 ## Install Jarvis
 
@@ -299,17 +293,56 @@ View all of your current settings.
 settings-View
 ```
 
-## Near-Future Plans
+#### Cheat Sheet
+Display the cheat sheet for a language or framework, the section is optional.
+```
+cs <type> [section]
 
-- Push to different branches in a GitHub repo
-- Some cool handy Firebase things
-- Handle time tracking
-- Create Swift templates
-- Lossy & lossless image compression
+e.g.
 
-## Notes
+jarvis cs javascript
+jarvis cs javascript basic-object
+```
+Available Cheat Sheets: ActionScript, Characters, CMake, CSS, Docker, Drush, ExpressJS, Git, HTML, HTMLDOM, HTTPStatus, Javascript, jQuery, Linux, mod_rewrite, MongoShell, MySQL, NodeJS, PHP, Python, Regex, Ruby, SVN, UnderscoreJS.
 
-Jarvis is designed for macOS; because of this, there are parts of the CLI that will not work on other operating systems.
+#### Cheat Sheet Types
+Display the available cheat sheets
+```
+cs-types
+```
+
+#### Cheat Sheet Type Sections
+Display the available sections for a cheat sheet
+````
+cs-sections <type>
+
+e.g.
+
+jarvis cs-sections javascript
+````
+
+#### Documentation
+Open documentation for a language, framework, or platform in your browser.
+````
+documentation <type>
+
+e.g.
+
+jarvis documentation javascript
+````
+Available Documentation:
+
+Languages: ABAP, ActionScript, Ada, APL, ASP.NET, C, C++, C#, CSS, SCSS, LESS, Erland, Elixir, F#, Go, Haskell, HTML, Java, JavaScript, NodeJS, List, ObjectiveC, OCaml, Perl, PHP, Python, R, RubyOnRails, Scala, Swift, VisualBasic, XML, Rust, Kotlin, Ruby, TypeScript.
+
+Frameworks: Boostrap, jQuery, lodash, request, chalk, react, express, commander, moment, debug, prop-types, react-dom, async, bluebird, fs-extra, tslib, axios, underscore, uuid, mkdirp, classnames, vue, body-parser, yargs, webpack, glob, rxjs, colors, inquirer, minimist, babel-core, core-js, aws-sdk, dotenv, yeoman-generator, redux, tensorflow, Kibana.
+
+Platforms: Apache, Nginx, Kubernetes, Docker, Git, Heroku, Azure, GoogleCloud, AWS, MySQL, PostgreSQL, MongoDB, Redis, ApacheSpark, ElasticSearch, CockroachDB, Joomla.
+
+#### Documentation List
+Display a list of all available documentation types.
+````
+documentation-list
+````
 
 ## License
 

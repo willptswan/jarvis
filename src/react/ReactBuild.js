@@ -26,13 +26,14 @@ async function updateIndexHTML() {
 	let config = await Config.getActive('s3');
 
 	// Log updating
-	Log.spaced('Updating index.html...', 'info');
+	Log.spacer();
+	Log.info('Updating index.html...');
 
 	// Update
 	await Files.replaceContents('./index.html', `https://${config.bucket}.s3.${config.region}.amazonaws.com/index.js.gz`, './build/index.js');
 
 	// Log success
-	Log.standard('Updated index.html', 'success');
+	Log.success('Updated index.html', 'success');
 
 }
 
@@ -40,7 +41,8 @@ async function updateIndexHTML() {
 async function buildAndRun() {
 
 	// Log build and running
-	Log.spaced(`Building and running project...`, 'info');
+	Log.spacer();
+	Log.info(`Building and running project...`);
 
 	// Build and run
 	// Note: This is mac specific
@@ -48,10 +50,10 @@ async function buildAndRun() {
 
 	// Check that there was no error
 	if (stderr !== "" && stderr !== null && typeof(stderr) !== 'undefined') {
-		Log.standard(stderr, 'error');
+		Log.error(stderr);
 	} else {
-		Log.standard(`Webpack is now serving and watching project`, 'success');
-		Log.standard('A new terminal window has been opened for this process', 'notice');
+		Log.success(`Webpack is now serving and watching project`);
+		Log.notice('A new terminal window has been opened for this process');
 	}
 
 }

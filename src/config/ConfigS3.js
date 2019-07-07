@@ -45,7 +45,8 @@ exports.delete = async (config, reset) => {
 		if (config.active && !reset) {
 
 			// Log activate another config
-			Log.spaced('Please activate an S3 config', 'notice');
+			Log.spacer();
+			Log.notice('Please activate an S3 config');
 
 			// Activate a new config
 			await exports.activate();
@@ -168,12 +169,13 @@ exports.new = async () => {
 	config.bucket = response.bucket;
 
 	// Log storing s3 config
-	Log.spaced('Storing S3 config...', 'info');
+	Log.spacer();
+	Log.info('Storing S3 config...');
 
 	// Store
 	await Config.setToStore(Constants.s3ConfigsKey, config, true);
 
 	// Log success
-	Log.standard('Stored S3 config', 'success');
+	Log.success('Stored S3 config');
 
 };

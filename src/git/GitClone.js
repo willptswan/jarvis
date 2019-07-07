@@ -26,7 +26,8 @@ exports.handler = async (repoName) => {
 async function cloneRepo(config) {
 
 	// Log cloning repo
-	Log.spaced(`Cloning ${config.repo}...`, 'info');
+	Log.spacer();
+	Log.info(`Cloning ${config.repo}...`);
 
 	// Clone repo
 	const { stdout, stderr } = await exec(`git clone git@github.com-${config.username}:${config.username}/${config.repo}.git`);
@@ -35,7 +36,7 @@ async function cloneRepo(config) {
 	if (stderr.includes('Cloning into')) {
 
 		// Log success
-		Log.standard(`Cloned ${config.repo}`, 'success');
+		Log.success(`Cloned ${config.repo}`);
 
 	} else {
 		throw stderr;

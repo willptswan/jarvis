@@ -11,11 +11,12 @@ const exec = util.promisify(require('child_process').exec);
 exports.handler = async () => {
 
 	// Log what resetting does
-	Log.spaced('Resetting Jarvis will do the following:', 'notice');
 	Log.spacer();
-	Log.standard('- Delete all configs', 'notice');
-	Log.standard('- Delete all settings', 'notice');
-	Log.spaced('Note: jarvis-dummy gcloud config will not be deleted as there has to always been one active gcloud config', 'notice');
+	Log.notice('Resetting Jarvis will do the following:');
+	Log.spacer();
+	Log.notice('- Delete all configs');
+	Log.notice('- Delete all settings');
+	Log.notice('Note: jarvis-dummy gcloud config will not be deleted as there has to always been one active gcloud config');
 	Log.spacer();
 
 	// Ask if we are sure we want to reset

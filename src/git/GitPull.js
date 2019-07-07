@@ -15,7 +15,8 @@ exports.handler = async () => {
 	let config = await Config.getActive('git');
 
 	// Log pulling changes
-	Log.spaced(`Pulling changes from ${config.repo}...`, 'info');
+	Log.spacer();
+	Log.info(`Pulling changes from ${config.repo}...`);
 
 	// Pull changes
 	const { stdout, stderr } = await exec(`git pull git@github.com-${config.username}:${config.username}/${config.repo}.git`);
@@ -24,12 +25,12 @@ exports.handler = async () => {
 	if (stdout.includes('Updating')) {
 
 		// Log success
-		Log.standard(`Pulled changes from ${config.repo}`, 'success');
+		Log.success(`Pulled changes from ${config.repo}`);
 
 	} else if (stdout.includes('Already up to date')) {
 
 		// Log already update to date
-		Log.standard(`Local repo is already up to date with ${config.repo}`, 'notice');
+		Log.notice(`Local repo is already up to date with ${config.repo}`);
 
 	} else {
 		throw stderr;
