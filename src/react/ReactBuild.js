@@ -29,8 +29,11 @@ async function updateIndexHTML() {
 	Log.spacer();
 	Log.info('Updating index.html...');
 
-	// Update
-	await Files.replaceContents('./index.html', `https://${config.bucket}.s3.${config.region}.amazonaws.com/index.js.gz`, './build/index.js');
+	// Update js
+	await Files.replaceContents('./index.html', `https://${config.bucket}.s3.${config.region}.amazonaws.com/index.js.gz`, '/build/index.js');
+
+	// Update css
+	await Files.replaceContents('./index.html', `https://${config.bucket}.s3.${config.region}.amazonaws.com/index.css.gz`, '/build/index.css');
 
 	// Log success
 	Log.success('Updated index.html', 'success');

@@ -58,22 +58,6 @@ class Head extends React.Component {
 
 	}
 
-	formatStyleSource() {
-
-		// Get static url
-		let url = Environment.staticURL;
-
-		// Check which environment we are in
-		if (Environment.env === 'development') {
-			url += 'index.css';
-		} else {
-			url += 'index.css.gz';
-		}
-
-		return url;
-
-	}
-
 	render() {
 
 		return (
@@ -138,9 +122,6 @@ class Head extends React.Component {
 				{Environment.dnsPreFetch.map((url, index) => (
 					<link rel="dns-prefetch" href={url} key={index} />
 				))}
-
-        // Style sheet
-				<link rel="stylesheet" media="screen" type="text/css" href={this.formatStyleSource()} />
 
         // Google Analytics
 				{(Environment.env === 'production') ?

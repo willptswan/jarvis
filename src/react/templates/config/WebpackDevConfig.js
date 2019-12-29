@@ -51,10 +51,7 @@ module.exports = function(env) {
 						}
 					},
 					{
-						loader: '${styleLoader}',
-		     		options: {
-		      	javascriptEnabled: true,
-		    	},
+						loader: '${styleLoader}'
 					}]
 				}
 			]

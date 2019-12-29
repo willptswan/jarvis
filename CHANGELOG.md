@@ -1,5 +1,14 @@
 # Change Log
 
+#### V1.3.0
+
+- Changed ReactDeploy to replace /build instead of ./build
+- Changed IndexHTML template to use /build instead of ./build
+- Changed ReactDeploy to replace s3 url with /build instead of ./build
+- Removed options for sass loader in webpack configs
+- Updated React templates so that babel works for async await
+- Removed <style> related bits from react/templates/app/Head.js
+
 #### V1.2.0
 
 - Jarvis is now cross platform, all commands should now work on macOS, Windows, and Linux

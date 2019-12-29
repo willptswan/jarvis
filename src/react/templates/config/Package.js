@@ -30,9 +30,11 @@ exports.template = async (projectName, useSCSS) => {
 		"start": "node server.js"
   },
   "devDependencies": {
-    "@babel/core": "latest",
+		"@babel/core": "latest",
+    "@babel/plugin-transform-runtime": "latest",
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
+    "@babel/runtime": "latest",
     "aws-sdk": "latest",
     "babel-loader": "latest",
     "compression-webpack-plugin": "latest",

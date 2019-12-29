@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 
 // App version
-exports.version = '1.2.0';
+exports.version = '1.3.0';
 
 // Root User Path
 exports.rootUserPath = () => {
