@@ -42,8 +42,6 @@ exports.check = async () => {
 
 		}
 
-
-
 	}
 
 };

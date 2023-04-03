@@ -8,23 +8,22 @@ exports.template = (useSCSS) => {
 
 	return `// Packages
 import React from 'react';
-import { shallow } from '../../../enzyme';
+import { shallow, mount } from '../../../enzyme';
 
-// Styles
-import styles from './pagenotfound.${styleExtension}';
-
-// Component
-import PageNotFound from './';
+// Components
+import PageNotFound from './PageNotFound';
 
 // Set up tests
-const pageNotFound = shallow(<PageNotFound />);
+const home = shallow(<PageNotFound />);
 
 // Run tests
 describe('PageNotFound', () => {
 
-	it('Renders the component container', () => {
-		expect(pageNotFound.hasClass(\`\${styles.pageNotFound}\`)).toBeTruthy();
+	// Write tests here
+	it('Write tests for PageNotFound here', () => {
+		expect(true).toBe(true);
 	});
 
-});`;
+});
+`;
 };

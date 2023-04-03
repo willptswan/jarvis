@@ -6,32 +6,20 @@ exports.template = (componentName, componentNameCamel, useSCSS) => {
 		style = 'scss';
 	}
 
-	return `// Styles
-import styles from './${componentName.toLowerCase()}.${style}';
-
-// Packages
+	return `// Imports
 import React from 'react';
+import './${componentName.toLowerCase()}.${style}';
 
-// ${componentName} Class
-class ${componentName} extends React.Component {
+// ${componentName} component
+const ${componentName} = () => {
 
-  constructor(props) {
+	return (
 
-    super(props);
+		<div className="${componentNameCamel}">
+			This is the ${componentName} component.
+		</div>
 
-  }
-
-  render() {
-
-    return(
-
-      <div className={styles.${componentNameCamel}}>
-        This is the ${componentName} component.
-      </div>
-
-    );
-
-  }
+	)
 
 }
 

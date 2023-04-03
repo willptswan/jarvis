@@ -8,13 +8,11 @@ exports.template = (componentName, componentNameCamel, useSCSS) => {
 
 	return `// Packages
 import React from 'react';
-import { shallow } from '../../enzyme';
+import { shallow } from '../../enzyme'; // Update me
 
-// Styles
-import styles from './${componentName.toLowerCase()}.${styleExtension}';
 
 // Component
-import ${componentName} from './';
+import ${componentName} from './${componentName}';
 
 // Set up tests
 const ${componentNameCamel} = shallow(<${componentName} />);
@@ -22,8 +20,9 @@ const ${componentNameCamel} = shallow(<${componentName} />);
 // Run tests
 describe('${componentName}', () => {
 
-  it('Renders the component container', () => {
-		expect(${componentNameCamel}.hasClass(styles.${componentNameCamel})).toBeTruthy();
+	// Write tests here
+  it('Write tests for ${componentName} here', () => {
+		expect(true).toBe(true);
   });
 
 });`;

@@ -1,5 +1,6 @@
 # Non Template Ignores
 .eslintrc
+.gitignore
 
 # Logs
 logs

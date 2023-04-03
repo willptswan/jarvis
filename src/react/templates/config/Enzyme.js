@@ -1,7 +1,7 @@
 exports.template = () => {
 	return `// Imports
 import Enzyme, { configure, shallow, mount, render } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 // Configure
 configure({ adapter: new Adapter() });

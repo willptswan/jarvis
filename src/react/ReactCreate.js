@@ -22,20 +22,20 @@ exports.handler = async (componentName) => {
 	await Files.makeDir(`./${componentName}`);
 
 	// Create component
-	await Files.create(`./${componentName}/${componentName}.js`, Component.template(componentName, convertNameToCamel(componentName), settings.useSCSS));
+	await Files.create(`./${componentName}/${componentName}.js`, Component.template(componentName, convertNameToCSSClass(componentName), settings.useSCSS));
 
 	// Create tests
-	await Files.create(`./${componentName}/${componentName}.test.js`, ComponentTest.template(componentName, convertNameToCamel(componentName), settings.useSCSS));
+	await Files.create(`./${componentName}/${componentName}.test.js`, ComponentTest.template(componentName, convertNameToCSSClass(componentName), settings.useSCSS));
 
 	if (settings.useSCSS) {
 
 		// Create SCSS
-		await Files.create(`./${componentName}/${componentName.toLowerCase()}.scss`, ComponentStyles.template(convertNameToCamel(componentName)));
+		await Files.create(`./${componentName}/${componentName.toLowerCase()}.scss`, ComponentStyles.template(convertNameToCSSClass(componentName)));
 
 	} else {
 
 		// Create less
-		await Files.create(`./${componentName}/${componentName.toLowerCase()}.less`, ComponentStyles.template(convertNameToCamel(componentName)));
+		await Files.create(`./${componentName}/${componentName.toLowerCase()}.less`, ComponentStyles.template(convertNameToCSSClass(componentName)));
 
 	}
 
@@ -48,19 +48,22 @@ exports.handler = async (componentName) => {
 
 };
 
-// Convert name to camel case
-function convertNameToCamel(componentName) {
+// Convert name to css class
+function convertNameToCSSClass(componentName) {
 
-	// Get first char
-	let firstChar = componentName[0];
+	// Split name by uppercase
+	let splitString = componentName.split(/(?=[A-Z])/);
 
-	// Lower case first char
-	firstChar = firstChar.toLowerCase();
+	// Create class name
+	let className = "";
+	splitString.forEach((part, i) => {
+		if (i === 0) {
+			className += part;
+		} else {
+			className += `-${part}`;
+		}
+	});
 
-	// Remove first char from componentName
-	componentName = componentName.substring(1);
-
-	// Join everything back up
-	return `${firstChar}${componentName}`;
+	return className.toLowerCase();
 
 }

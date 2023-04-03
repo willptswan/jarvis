@@ -1,6 +1,7 @@
 exports.template = () => {
-	return `function buildConfig(env) {
-	return require("./webpack." + Object.keys(env)[0] + ".config.js")(env);
+	return `// Select webpack config (dev or prod)
+function selectConfig(env) {
+	return require("./webpack." + Object.keys(env).pop() + ".config.js")(env);
 }
-module.exports = buildConfig;`;
+module.exports = selectConfig;`;
 };

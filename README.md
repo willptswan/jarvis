@@ -19,9 +19,10 @@ Currently, Jarvis can:
 - Open websites
 - Search websites
 - Upload files and folders to S3
-- Initialise and deploy Elastic Beanstalk applications
 - Display cheat sheets
 - Open documentation for languages, frameworks, and platforms in your browser
+- Count the lines of code in a project
+- Get stats on a project including line and file counts
 
 ## Install Jarvis
 
@@ -40,7 +41,6 @@ npm install -g @willptswan/jarvis
 Jarvis requires the following CLI's to be installed:
 
 - Cloud SDK - [Install](https://cloud.google.com/sdk/)
-- EB CLI - [Install](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-advanced.html)
 
 ## Using Jarvis
 
@@ -66,48 +66,43 @@ jarvis reset
 ```
 
 #### Config New
-Create and store a new config. Valid arguments are git, gcp, eb, and s3.
+Create and store a new config. Valid arguments are git, gcp, and s3.
 ```
 jarvis config-new git
 jarvis config-new gcp
 jarvis config-new s3
-jarvis config-new eb
 ```
 
 #### Config Delete
-Delete a stored config. Valid arguments are git, gcp, eb, and s3.
+Delete a stored config. Valid arguments are git, gcp, and s3.
 ```
 jarvis config-delete git
 jarvis config-delete gcp
 jarvis config-delete s3
-jarvis config-delete eb
 ```
 
 #### Config Update
-Update a stored config. Valid arguments are git, gcp, eb, and s3.
+Update a stored config. Valid arguments are git, gcp, and s3.
 ```
 jarvis config-update git
 jarvis config-update gcp
 jarvis config-update s3
-jarvis config-update eb
 ```
 
 #### Config Switch
-Switch between stored configs. Valid arguments are git, gcp, eb, and s3.
+Switch between stored configs. Valid arguments are git, gcp, and s3.
 ```
 jarvis config-switch git
 jarvis config-switch gcp
 jarvis config-switch s3
-jarvis config-switch eb
 ```
 
 #### Config View
-View all stored configs. Valid arguments are git, gcp, s3, eb, and all.
+View all stored configs. Valid arguments are git, gcp, s3, and all.
 ```
 jarvis config-view git
 jarvis config-view gcp
 jarvis config-view s3
-jarvis config-view eb
 jarvis config-view all
 ```
 
@@ -136,14 +131,13 @@ jarvis react-create MyComponent
 By default, Jarvis will use LESS for all styles. If you would like to use SCSS then update the useSCSS setting.
 
 #### React Deploy
-Deploy a react project to Google App Engine or Elastic Beanstalk.
+Deploy a react project to Google App Engine.
 ```
 jarvis react-deploy <platform> <version>
 
 e.g.
 
 jarvis react-deploy gae 1.0.0
-jarvis react-deploy eb 1.0.0
 ```
 
 #### React Build
@@ -194,32 +188,6 @@ jarvis gae-deploy <version>
 e.g.
 
 jarvis gae-deploy 1.0.0
-```
-
-#### Elastic Beanstalk Init
-Initialise an Elastic Beanstalk application and environment.
-```
-jarvis eb-init <applicationName>
-
-e.g.
-
-jarvis eb-init my-app
-```
-
-#### Elastic Beanstalk Deploy
-Deploy an application to Elastic Beanstalk.
-```
-jarvis eb-deploy <version>
-
-e.g.
-
-jarvis eb-deploy 1.0.0
-```
-
-#### S3 Bundle Upload
-Upload a css and js bundle to AWS S3.
-```
-jarvis s3-bundle-upload
 ```
 
 #### S3 Upload
@@ -343,6 +311,121 @@ Display a list of all available documentation types.
 ````
 documentation-list
 ````
+
+#### Project Lines
+Count the amount of lines of code in a project including a detailed breakdown of lines per file.
+````
+project-lines [ignoreFiles]
+````
+By default project-lines ignores:
+
+```
+README.md
+LICENSE
+CHANGELOG.md
+package.json
+package-lock.json
+.sass-lint.yml
+.gitignore
+.gcloudignore
+.eslintrc
+node_modules/
+.git/
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.log
+*.sql
+*.sqlite
+.DS_Store
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+````
+
+To ignore specific files or folders, add them to the command. For example:
+````
+project-lines file1.js folder1/
+````
+To ignore every file with a particular extension use the following syntax: (This excludes every json file)
+````
+project-lines ext.json
+````
+If there is a .gitignore file in the same directory that you run the command then that will also be used to calculate what files to ignore.
+
+#### Project Stats
+Display stats for a project.
+````
+project-stats [ignoreFiles]
+````
+The stats the are produced include:
+- Total line count
+- Average line count
+- Max line count including the file
+- Min line count including the file
+- Total files
+- Total quantity of files by extension
+- Percentage of project by file extension
+
+By default project-stats ignores:
+
+```
+README.md
+LICENSE
+CHANGELOG.md
+package.json
+package-lock.json
+.sass-lint.yml
+.gitignore
+.gcloudignore
+.eslintrc
+node_modules/
+.git/
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.log
+*.sql
+*.sqlite
+.DS_Store
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+````
+
+To ignore specific files or folders, add them to the command. For example:
+````
+project-lines file1.js folder1/
+````
+To ignore every file with a particular extension use the following syntax: (This excludes every json file)
+````
+project-lines ext.json
+````
+If there is a .gitignore file in the same directory that you run the command then that will also be used to calculate what files to ignore.
 
 ## License
 

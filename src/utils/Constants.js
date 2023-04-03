@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 
 // App version
-exports.version = '1.3.0';
+exports.version = '2.0.0';
 
 // Root User Path
 exports.rootUserPath = () => {
@@ -32,7 +32,6 @@ exports.osLinux = 'linux';
 exports.gitConfigsKey = "git-configs";
 exports.gcpConfigsKey = "gcp-configs";
 exports.s3ConfigsKey = "s3-configs";
-exports.ebConfigsKey = "eb-configs";
 exports.dummyGCPConfigSetKey = "dummy-gcp-isset";
 exports.settingsKey = "settings";
 exports.checkedUpdateKey = "checked-update";
@@ -218,18 +217,17 @@ exports.validCommands = [
 	'git-clone',
 	'git-init',
 	'gae-deploy',
-	's3-bundle-upload',
 	's3-upload',
 	'site-open',
 	'site-search',
 	'settings-update',
 	'settings-reset',
 	'settings-view',
-	'eb-init',
-	'eb-deploy',
 	'cs',
 	'cs-types',
 	'cs-sections',
 	'documentation',
-	'documentation-list'
+	'documentation-list',
+	'project-lines',
+	'project-stats'
 ];

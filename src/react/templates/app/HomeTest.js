@@ -1,20 +1,11 @@
-exports.template = (useSCSS) => {
-
-	// Work out style extension
-	let styleExtension = 'less';
-	if (useSCSS) {
-		styleExtension = 'scss';
-	}
+exports.template = () => {
 
 	return `// Packages
 import React from 'react';
-import { shallow } from '../../../enzyme';
+import { shallow, mount } from '../../../enzyme';
 
-// Styles
-import styles from './home.${styleExtension}';
-
-// Component
-import Home from './';
+// Components
+import Home from './Home';
 
 // Set up tests
 const home = shallow(<Home />);
@@ -22,8 +13,9 @@ const home = shallow(<Home />);
 // Run tests
 describe('Home', () => {
 
-	it('Renders the component container', () => {
-		expect(home.hasClass(\`\${styles.home}\`)).toBeTruthy();
+	// Write tests here
+	it('Write tests for Home here', () => {
+		expect(true).toBe(true);
 	});
 
 });`;

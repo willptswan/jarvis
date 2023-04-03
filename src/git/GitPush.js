@@ -33,7 +33,7 @@ async function pushChanges() {
 	Log.info('Pushing changes...');
 
 	// Push changes
-	const { stdout, stderr } = await exec('git push -u origin master');
+	const { stdout, stderr } = await exec('git push -u origin main');
 
 	// Nothing really to check for here, if there is an error it will exit the process so just log success
 	Log.success('Changes pushed');

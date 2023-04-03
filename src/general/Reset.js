@@ -38,9 +38,6 @@ exports.handler = async () => {
 		// Delete all gcp configs
 		await Config.deleteAllConfigs('gcp');
 
-		// Delete all eb configs
-		await Config.deleteAllConfigs('eb');
-
 		// Reset Settings
 		await Settings.reset();
 

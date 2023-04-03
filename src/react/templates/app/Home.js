@@ -6,44 +6,22 @@ exports.template = (useSCSS) => {
 		styleExtension = 'scss';
 	}
 
-	return `// Styles
-import styles from './home.${styleExtension}';
-
-// Packages
+	return `// Imports
 import React from 'react';
+import './home.${styleExtension}';
 
-// Components
-import Head from '../../Head';
+// Home component
+const Home = () => {
 
-// Home Class
-class Home extends React.Component {
+	return (
 
-	constructor(props) {
+		<div className="home">This is the Home component.</div>
 
-		super(props);
-
-	}
-
-	render() {
-
-		return (
-
-			<div className={styles.home}>
-
-				<Head
-					slug="/"
-					description="This is the home description"
-				/>
-
-        This is the Home component.
-
-			</div>
-
-		);
-
-	}
+	);
 
 }
 
-export default Home;`;
+// Export Component
+export default Home;
+`;
 };

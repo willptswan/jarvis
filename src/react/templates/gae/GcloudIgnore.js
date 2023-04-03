@@ -16,8 +16,8 @@ exports.template = () => {
 
 /node_modules/
 .DS_Store
-build
 .eslintrc
+.sass-lint.yml
 CHANGELOG.md
 README.md
 `;

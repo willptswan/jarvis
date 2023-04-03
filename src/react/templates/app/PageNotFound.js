@@ -6,44 +6,22 @@ exports.template = (useSCSS) => {
 		styleExtension = 'scss';
 	}
 
-	return `// Styles
-import styles from './pagenotfound.${styleExtension}';
-
-// Packages
+	return `// Imports
 import React from 'react';
+import './pagenotfound.${styleExtension}';
 
-// Components
-import Head from '../../Head';
+// PageNotFound component
+const PageNotFound = () => {
 
-// PageNotFound Class
-class PageNotFound extends React.Component {
+	return (
 
-	constructor(props) {
+		<div className="page-not-found">This is the PageNotFound component.</div>
 
-		super(props);
-
-	}
-
-	render() {
-
-		return (
-
-			<div className={styles.pageNotFound}>
-
-				<Head
-					slug="/404"
-					description="This is the 404 description"
-				/>
-
-        This is the PageNotFound component.
-
-			</div>
-
-		);
-
-	}
+	);
 
 }
 
-export default PageNotFound;`;
+// Export component
+export default PageNotFound;
+`;
 };

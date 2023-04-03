@@ -16,7 +16,7 @@ exports.template = async (projectName, useSCSS) => {
 
 	return `{
   "name": "${projectName}",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "UNLICENSED",
   "private": true,
   "repository": {
@@ -24,44 +24,36 @@ exports.template = async (projectName, useSCSS) => {
     "url": "git@github.com-${gitConfig.username}:${gitConfig.username}/${gitConfig.repo}.git"
   },
   "scripts": {
-    "test": "jest",
-    "build": "NODE_ENV=development webpack-dev-server --env.dev",
-    "build:prod": "NODE_ENV=production webpack --env.prod -p",
-		"start": "node server.js"
+		"start": "node server.js",
+    "build": "NODE_ENV=development webpack serve --env dev",
+    "build:prod": "NODE_ENV=production webpack --env prod",
+    "test": "jest"
   },
   "devDependencies": {
-		"@babel/core": "latest",
-    "@babel/plugin-transform-runtime": "latest",
-    "@babel/preset-env": "latest",
-    "@babel/preset-react": "latest",
-    "@babel/runtime": "latest",
-    "aws-sdk": "latest",
-    "babel-loader": "latest",
-    "compression-webpack-plugin": "latest",
-    "css-loader": "latest",
-    "cssnano": "latest",
-    "enzyme": "latest",
-    "enzyme-adapter-react-16": "latest",
-    "eslint": "latest",
-    "identity-obj-proxy": "latest",
-    "jest": "latest",
-    "mini-css-extract-plugin": "latest",
-    "optimize-css-assets-webpack-plugin": "latest",
-    "style-loader": "latest",
-    "webpack": "latest",
-    "webpack-build-notifier": "latest",
-    "webpack-cli": "latest",
-    "webpack-dev-server": "latest",
+		"@babel/core": "^7.16.5",
+    "@babel/plugin-transform-runtime": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
+    "enzyme": "^3.11.0",
+    "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.5",
+    "mini-css-extract-plugin": "^2.4.5",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.2",
 		"${styleType}": "latest",
     "${styleLoader}": "latest"
   },
   "dependencies": {
-		"express": "latest",
-    "prop-types": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-helmet": "latest",
-    "react-router-dom": "latest"
+		"express": "^4.17.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1"
   }
 }`;
 

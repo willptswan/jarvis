@@ -1,45 +1,29 @@
-exports.template = (useSCSS) => {
+exports.template = () => {
 
-	// Work out style extension
-	let styleExtension = 'less';
-	if (useSCSS) {
-		styleExtension = 'scss';
-	}
-
-	return `// Styles
-import styles from './container.${styleExtension}';
-
-// Packages
+	return `// Imports
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 // Views
 import Home from '../views/Home';
 import PageNotFound from '../views/PageNotFound';
 
-// Container class
-class Container extends React.Component {
+// Container component
+const Container = () => {
 
-	render() {
+	return (
 
-		return (
+		<Routes>
 
-			<div className={styles.container}>
+			<Route path="*" element={<PageNotFound />} />
+			<Route path="/" element={<Home />} />
 
-				<Switch>
-					<Route exact path="/" component={Home}/>
-					<Route component={PageNotFound} />
-				</Switch>
+		</Routes>
 
-			</div>
-
-
-
-		);
-
-	}
+	);
 
 }
 
-export default Container;`;
+export default Container;
+`;
 };

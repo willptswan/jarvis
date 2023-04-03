@@ -63,7 +63,7 @@ exports.delete = async (config, reset) => {
 exports.update = async () => {
 
 	// Choose config to update
-	config = await Config.chooseConfig('s3');
+	let config = await Config.chooseConfig('s3');
 
 	// Declare what keys can be updated
 	let keys = ['region', 'accessKey', 'secretAccessKey', 'bucket'];

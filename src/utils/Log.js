@@ -46,16 +46,16 @@ function getTabs(tabs) {
 
 	switch (tabs) {
 	case 1:
-		tabsString = '	';
+		tabsString = '  ';
 		break;
 	case 2:
-		tabsString = '		';
+		tabsString = '    ';
 		break;
 	case 3:
-		tabsString = '			';
+		tabsString = '      ';
 		break;
 	case 4:
-		tabsString = '				';
+		tabsString = '        ';
 		break;
 	default:
 		tabsString = '';

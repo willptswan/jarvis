@@ -1,18 +1,36 @@
 exports.template = () => {
-	return `// Imports
+	return `// Packages
 const express = require('express');
 const path = require('path');
 
-// Constants
+// Setup app consts
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
+const DIST_DIR = path.join(__dirname, './dist');
+const HTML_FILE = path.join(DIST_DIR, 'index.html');
 
-// Handle all routes with index.html
+// Setup static dir
+app.use(express.static(DIST_DIR));
+
+// App route
 app.get('*', function (request, response) {
-	response.sendFile(path.resolve(__dirname, 'index.html'));
+
+	// Set headers
+	response.set({
+		'X-Powered-By': '*',
+		'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+		'X-Frame-Options': 'SAMEORIGIN',
+		'X-Content-Type-Options': 'nosniff',
+		'Referrer-Policy': 'same-origin'
+	});
+
+	// Return html
+	response.sendFile(HTML_FILE);
+
 });
 
-// Listen
-app.listen(port);
-console.log(\`Listening on port \${port}\`);`;
+// Run app
+app.listen(port, function () {
+	console.log('App listening on port: ' + port);
+});`;
 };

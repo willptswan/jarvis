@@ -120,15 +120,18 @@ exports.load = async (fileName) => {
 		// Turn readFile into a promise
 		const readFile = util.promisify(fs.readFile);
 
-		// Read the file
-		let file = await readFile(fileName, 'utf8');
+		try {
 
-		// Check if there was an error
-		if (file.includes('Error:')) {
-			Log.error(`Error loading ${fileName}`);
-			throw file;
-		} else {
+			// Read the file
+			let file = await readFile(fileName, 'utf8');
+
 			return file;
+
+		} catch (error) {
+
+			Log.error(`Error loading ${fileName}`);
+			throw error;
+
 		}
 
 	} else {

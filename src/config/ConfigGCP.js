@@ -78,7 +78,7 @@ exports.delete = async (config, reset) => {
 exports.update = async () => {
 
 	// Choose config to update
-	config = await Config.chooseConfig('gcp');
+	let config = await Config.chooseConfig('gcp');
 
 	// Activate config
 	await exports.activate(config.id);

@@ -70,7 +70,7 @@ exports.update = async () => {
 	await Config.deactivateAll('git');
 
 	// Choose config to update
-	config = await Config.chooseConfig('git');
+	let config = await Config.chooseConfig('git');
 
 	// Save the old config
 	let oldConfig = {};
@@ -404,7 +404,7 @@ Host github.com-${config.username}
 
 		// Log updating ssh config
 		Log.spacer();
-  	Log.info('Updating SSH config...');
+  		Log.info('Updating SSH config...');
 
 		// Update config file
 		await Files.append(`${rootPath}.ssh/config`, sshConfig);

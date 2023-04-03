@@ -36,5 +36,6 @@ exports.template = () => {
       "no-duplicate-imports": "error",
       "no-this-before-super": "error"
   }
-}`;
+}
+`;
 };

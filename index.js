@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 // Packages
-const Program = require('commander');
+const { Command } = require('commander');
+const Program = new Command();
 
 // Utils
 const Prompt = require('./src/utils/Prompt');
@@ -26,10 +27,7 @@ const ReactBuild = require('./src/react/ReactBuild');
 
 const GAEDeploy = require('./src/gcp/GAEDeploy');
 
-const S3BundleUpload = require('./src/aws/s3/S3BundleUpload');
 const S3Upload = require('./src/aws/s3/S3Upload');
-const EBInit = require('./src/aws/eb/EBInit');
-const EBDeploy = require('./src/aws/eb/EBDeploy');
 
 const SiteOpen = require('./src/site/SiteOpen');
 const SiteSearch = require('./src/site/SiteSearch');
@@ -39,6 +37,9 @@ const Config = require('./src/config/Config');
 const CheatSheet = require('./src/cheatsheet/CheatSheet');
 
 const Documentation = require('./src/documentation/Documentation');
+
+const ProjectLines = require('./src/project/ProjectLines');
+const ProjectStats = require('./src/project/ProjectStats');
 
 /*
  * General Commands
@@ -248,17 +249,6 @@ Program
  * AWS Commands
 */
 
-// S3-bundle-upload
-Program
-	.command('s3-bundle-upload')
-	.action(async () => {
-		await preCommand();
-		S3BundleUpload.handler().catch((err) => {
-			Log.error(err);
-		});
-		await postCommand();
-	});
-
 // S3-upload
 Program
 	.command('s3-upload <filePath>')
@@ -266,28 +256,6 @@ Program
 	.action(async (filePath, cmd) => {
 		await preCommand();
 		S3Upload.handler(filePath, cmd.P).catch((err) => {
-			Log.error(err);
-		});
-		await postCommand();
-	});
-
-// Eb-init
-Program
-	.command('eb-init <applicationName>')
-	.action(async (applicationName) => {
-		await preCommand();
-		EBInit.handler(applicationName).catch((err) => {
-			Log.error(err);
-		});
-		await postCommand();
-	});
-
-// Eb-deploy
-Program
-	.command('eb-deploy <version>')
-	.action(async (version) => {
-		await preCommand();
-		EBDeploy.handler(version).catch((err) => {
 			Log.error(err);
 		});
 		await postCommand();
@@ -413,6 +381,32 @@ Program
 	.action(async () => {
 		await preCommand();
 		Documentation.list().catch((err) => {
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+/*
+ * Project
+*/
+
+// ProjectLines
+Program
+	.command('project-lines [ignoreFiles...]')
+	.action(async (ignoreFiles) => {
+		await preCommand();
+		ProjectLines.handler(ignoreFiles).catch((err) => {
+			Log.error(err);
+		});
+		await postCommand();
+	});
+
+// Project stats
+Program
+	.command('project-stats [ignoreFiles...]')
+	.action(async (ignoreFiles) => {
+		await preCommand();
+		ProjectStats.handler(ignoreFiles).catch((err) => {
 			Log.error(err);
 		});
 		await postCommand();

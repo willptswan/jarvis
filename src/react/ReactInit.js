@@ -7,15 +7,11 @@ const GitInit = require('../git/GitInit');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const ReactBuild = require('./ReactBuild');
-const EBInit = require('../aws/eb/EBInit');
 
 // Templates
 const Container = require('./templates/app/Container');
 const ContainerIndex = require('./templates/app/ContainerIndex');
-const ContainerStyles = require('./templates/app/ContainerStyles');
 const ContainerTest = require('./templates/app/ContainerTest');
-const Head = require('./templates/app/Head');
-const HeadIndex = require('./templates/app/HeadIndex');
 const Home = require('./templates/app/Home');
 const HomeIndex = require('./templates/app/HomeIndex');
 const HomeStyles = require('./templates/app/HomeStyles');
@@ -34,6 +30,7 @@ const VariablesSCSS = require('./templates/app/VariablesSCSS');
 const BabelRC = require('./templates/config/BabelRC');
 const Enzyme = require('./templates/config/Enzyme');
 const ESLintRC = require('./templates/config/ESLintRC');
+const SassLint = require('./templates/config/SassLint');
 const JestConfig = require('./templates/config/JestConfig');
 const Package = require('./templates/config/Package');
 const WebpackConfig = require('./templates/config/WebpackConfig');
@@ -44,7 +41,6 @@ const GcloudIgnore = require('./templates/gae/GcloudIgnore');
 const ChangeLog = require('./templates/git/ChangeLog');
 const GitIgnore = require('./templates/git/GitIgnore');
 const ReadMe = require('./templates/git/ReadMe');
-const Environment = require('./templates/util/Environment');
 
 // Handler
 exports.handler = async (projectName) => {
@@ -74,14 +70,8 @@ exports.handler = async (projectName) => {
 	// Create app files
 	await createAppFiles(projectName, settings.useSCSS);
 
-	// Create util files
-	await createUtilFiles(projectName);
-
 	// Create gae files
 	await createGaeFiles(projectName);
-
-	// Create eb files
-	await createEBFiles(projectName);
 
 	// Execute package installs
 	await executePackageInstalls(projectName);
@@ -125,9 +115,6 @@ async function createFolders(projectName) {
 	Log.spacer();
 	Log.info('Creating folders...');
 
-	// Create build folder
-	await Files.makeDir('./build');
-
 	// Create src folder
 	await Files.makeDir('./src');
 
@@ -137,9 +124,6 @@ async function createFolders(projectName) {
 	// Create Container folder
 	await Files.makeDir('./src/components/Container');
 
-	// Create Head folder
-	await Files.makeDir('./src/components/Head');
-
 	// Create views folder
 	await Files.makeDir('./src/components/views');
 
@@ -148,9 +132,6 @@ async function createFolders(projectName) {
 
 	// Create PageNotFound folder
 	await Files.makeDir('./src/components/views/PageNotFound');
-
-	// Create utils folder
-	await Files.makeDir('./src/utils');
 
 }
 
@@ -166,6 +147,9 @@ async function createConfigFiles(projectName, useSCSS) {
 
 	// Create .eslintrc
 	await Files.create('./.eslintrc', ESLintRC.template());
+
+	// Create .sass-lint.yml
+	await Files.create('./.sass-lint.yml', SassLint.template());
 
 	// Create jest.config.js
 	await Files.create('./jest.config.js', JestConfig.template());
@@ -233,25 +217,6 @@ async function createGaeFiles(projectName) {
 
 }
 
-// Create elastic beanstalk files
-async function createEBFiles(projectName) {
-
-	// Ask if this project will be deployed to elastic beanstalk
-	let response = await Prompt.show({
-		name: 'answer',
-		message: 'Will this project be deployed on AWS Elastic Beanstalk? Y/n',
-		required: true
-	});
-
-	// Check if answer was yes
-	if (response.answer.toLowerCase() === 'y') {
-
-		await EBInit.handler(projectName, false);
-
-	}
-
-}
-
 // Create app files
 async function createAppFiles(projectName, useSCSS) {
 
@@ -259,11 +224,11 @@ async function createAppFiles(projectName, useSCSS) {
 	Log.spacer();
 	Log.info('Creating app files...');
 
-	// Create index.html
-	await Files.create('./index.html', IndexHTML.template());
-
 	// Create server.js
 	await Files.create('./server.js', ServerJS.template());
+
+	// Create ./src/index.html
+	await Files.create('./src/index.html', IndexHTML.template());
 
 	// Create ./src/index.js
 	await Files.create('./src/index.js', MainIndex.template(useSCSS));
@@ -289,9 +254,6 @@ async function createAppFiles(projectName, useSCSS) {
 	// Create Container Component
 	await createContainerComponent(projectName, useSCSS);
 
-	// Create Head Component
-	await createHeadComponent(projectName);
-
 	// Create Home view component
 	await createHomeViewComponent(projectName, useSCSS);
 
@@ -304,36 +266,13 @@ async function createAppFiles(projectName, useSCSS) {
 async function createContainerComponent(projectName, useSCSS) {
 
 	// Create ./src/components/Container/Container.js
-	await Files.create('./src/components/Container/Container.js', Container.template(useSCSS));
+	await Files.create('./src/components/Container/Container.js', Container.template());
 
 	// Create ./src/components/Container/Container.test.js
-	await Files.create('./src/components/Container/Container.test.js', ContainerTest.template(useSCSS));
-
-	if (useSCSS) {
-
-		// Create ./src/components/Container/container.scss
-		await Files.create('./src/components/Container/container.scss', ContainerStyles.template());
-
-	} else {
-
-		// Create ./src/components/Container/container.less
-		await Files.create('./src/components/Container/container.less', ContainerStyles.template());
-
-	}
+	await Files.create('./src/components/Container/Container.test.js', ContainerTest.template());
 
 	// Create ./src/components/Container/index.js
 	await Files.create('./src/components/Container/index.js', ContainerIndex.template());
-
-}
-
-// Create head component
-async function createHeadComponent(projectName) {
-
-	// Create ./src/components/Head/Head.js
-	await Files.create('./src/components/Head/Head.js', Head.template());
-
-	// Create ./src/components/Head/index.js
-	await Files.create('./src/components/Head/index.js', HeadIndex.template());
 
 }
 
@@ -344,7 +283,7 @@ async function createHomeViewComponent(projectName, useSCSS) {
 	await Files.create('./src/components/views/Home/Home.js', Home.template(useSCSS));
 
 	// Create ./src/components/views/Home/Home.test.js
-	await Files.create('./src/components/views/Home/Home.test.js', HomeTest.template(useSCSS));
+	await Files.create('./src/components/views/Home/Home.test.js', HomeTest.template());
 
 	if (useSCSS) {
 
@@ -386,18 +325,6 @@ async function createPageNotFoundViewComponent(projectName, useSCSS) {
 
 	// Create ./src/components/views/PageNotFound/index.js
 	await Files.create('./src/components/views/PageNotFound/index.js', PageNotFoundIndex.template());
-
-}
-
-// Create util files
-async function createUtilFiles(projectName) {
-
-	// Log creating util files
-	Log.spacer();
-	Log.info('Creating util files...');
-
-	// Create ./src/utils/Environment.js
-	await Files.create('./src/utils/Environment.js', Environment.template());
 
 }
 
@@ -482,7 +409,9 @@ async function displayNextSteps(projectName) {
 	Log.spacer();
 	Log.success(`${projectName} initialisation finished`);
 	Log.notice('Next Steps:');
-	Log.notice('1. Set constants in src/utils/Environment.js');
+	Log.notice('1. Set meta data in src/index.html');
+	Log.notice('2. Set variables in src/variables.scss');
+	Log.notice('3. Develop and have fun :)');
 	Log.spacer();
 
 }

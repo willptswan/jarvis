@@ -1,5 +1,5 @@
 exports.template = () => {
-	return `runtime: nodejs10
+	return `runtime: nodejs16
 
 handlers:
 
@@ -14,5 +14,6 @@ automatic_scaling:
   max_pending_latency: automatic
 
 env_variables:
-  NODE_ENV: 'production'`;
+  NODE_ENV: 'production'
+`;
 };

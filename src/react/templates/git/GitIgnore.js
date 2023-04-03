@@ -1,8 +1,10 @@
 exports.template = () => {
 	return `# NON TEMPLATE PATHS
 .DS_Store
-build
 .eslintrc
+.gitignore
+.sass-lint.yml
+.gcloudignore
 
 # Logs
 logs

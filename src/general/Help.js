@@ -17,6 +17,7 @@ exports.handler = () => {
    * General
   */
 	Log.standard('General:');
+	Log.spacer();
 
 	// Version
 	Log.info('version', 1);
@@ -37,6 +38,7 @@ exports.handler = () => {
    * Config
   */
 	Log.standard('Config:');
+	Log.spacer();
 
 	// Config-new
 	Log.info('config-new <type>', 1);
@@ -67,6 +69,7 @@ exports.handler = () => {
    * React
   */
 	Log.standard('React:');
+	Log.spacer();
 
 	// React-init
 	Log.info('react-init <projectName>', 1);
@@ -77,6 +80,11 @@ exports.handler = () => {
 	// React-create
 	Log.info('react-create <componentName>', 1);
 	Log.notice('Create a new boilerplate react component', 1);
+	Log.notice('A CSS class will be created using the component name. If the component has multiple words with each letter capitalised then the class name will be split by hyphens.', 1);
+	Log.notice('For example:', 1);
+	Log.notice('Name: mycomponent - Class: mycomponent', 2);
+	Log.notice('Name: myComponent - Class: my-component', 2);
+	Log.notice('Name: MyComponent - Class: my-component', 2);
 	Log.notice('By default, Jarvis will use LESS for all styles. If you would like to use SCSS, then update the useSCSS setting.', 1);
 	Log.spacer();
 
@@ -94,6 +102,7 @@ exports.handler = () => {
 	 * Git
 	*/
 	Log.standard('Git:');
+	Log.spacer();
 
 	// Git-push
 	Log.info('git-push <version> [files]', 1);
@@ -119,6 +128,7 @@ exports.handler = () => {
 	 * GCP
 	*/
 	Log.standard('GCP:');
+	Log.spacer();
 
 	// Gae-deploy
 	Log.info('gae-deploy <version>', 1);
@@ -129,10 +139,6 @@ exports.handler = () => {
 	 * AWS
 	*/
 	Log.standard('AWS:');
-
-	// S3-bundle-upload
-	Log.info('s3-bundle-upload', 1);
-	Log.notice('Upload the css and js bundle for a project to S3', 1);
 	Log.spacer();
 
 	// S3-upload
@@ -141,20 +147,11 @@ exports.handler = () => {
 	Log.notice('Add -p to the command if you are passing the path to a folder but only want the contents of the folder to be uploaded', 1);
 	Log.spacer();
 
-	// Eb-init
-	Log.info('eb-init <applicationName>', 1);
-	Log.notice('Initialise an Elastic Beanstalk application and environment', 1);
-	Log.spacer();
-
-	// Eb-deploy
-	Log.info('eb-deploy <version>', 1);
-	Log.notice('Deploy an application to Elastic Beanstalk', 1);
-	Log.spacer();
-
 	/*
 	 * Site
 	*/
 	Log.standard('Site:');
+	Log.spacer();
 
 	// Site-open
 	Log.info('site-open <site>', 1);
@@ -186,6 +183,7 @@ exports.handler = () => {
 	 * Settings
 	*/
 	Log.standard('Settings:');
+	Log.spacer();
 
 	// Settings-update
 	Log.info('settings-update', 1);
@@ -206,6 +204,7 @@ exports.handler = () => {
 	 * Cheat sheet
 	*/
 	Log.standard('Cheat Sheets:');
+	Log.spacer();
 
 	// Cs
 	Log.info('cs <type> [section]', 1);
@@ -228,6 +227,7 @@ exports.handler = () => {
 	*/
 
 	Log.standard('Documentation:');
+	Log.spacer();
 
 	// Documentation
 	Log.info('documentation <type>', 1);
@@ -238,6 +238,35 @@ exports.handler = () => {
 	Log.info('documentation-list', 1);
 	Log.notice('Display a list of all available documentation types', 1);
 	Log.spacer();
+
+	// Spacer at the end
+	Log.spacer();
+
+	/*
+	 * Project
+	*/
+
+	Log.standard('Project:');
+	Log.spacer();
+
+	// ProjectLines
+	Log.info('project-lines [ignoreFiles]', 1);
+	Log.notice('Count the lines of code in a project.', 1);
+	Log.notice('To ignore specific files and folders add them to the command. For example:', 1);
+	Log.notice('project-lines file1.js folder1/', 2);
+	Log.notice('To ignore all files with a specific extension user the following syntax: (This will ignore all json files)', 1);
+	Log.notice('project-lines ext.json', 2);
+	Log.notice('If there is a .gitignore file in the same directory that you run the command then that will also be used to calculate what files to ignore.', 1);
+	Log.spacer();
+
+	// ProjectStats
+	Log.info('project-stats [ignoreFiles]', 1);
+	Log.notice('Display stats for a project.', 1);
+	Log.notice('To ignore specific files and folders add them to the command. For example:', 1);
+	Log.notice('project-lines file1.js folder1/', 2);
+	Log.notice('To ignore all files with a specific extension user the following syntax: (This will ignore all json files)', 1);
+	Log.notice('project-lines ext.json', 2);
+	Log.notice('If there is a .gitignore file in the same directory that you run the command then that will also be used to calculate what files to ignore.', 1);
 
 	// Spacer at the end
 	Log.spacer();

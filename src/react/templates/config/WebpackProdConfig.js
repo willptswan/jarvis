@@ -1,86 +1,74 @@
 exports.template = (useSCSS) => {
 
 	// Work out style info
-	let styleExtension = 'less';
+	let styleExtension = /\.((le|c)ss)$/;
 	let styleLoader = 'less-loader';
 	if (useSCSS) {
-		styleExtension = 'scss';
+		styleExtension = /\.(s(a|c)ss)$/;
 		styleLoader = 'sass-loader';
 	}
 
-	return `// Imports
-var path = require('path');
-var webpack = require('webpack');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CompressionPlugin = require('compression-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+	return `// Packages
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+// Plugins
+const htmlPlugin = new HtmlWebPackPlugin({
+	template: "./src/index.html",
+	filename: "./index.html"
+});
+
+const nodeEnvPlugin = new webpack.DefinePlugin({
+	'process.env.NODE_ENV': JSON.stringify('production')
+});
+
+const miniCssPlugin = new MiniCssExtractPlugin();
+
+// Output config
+function outputConfig() {
+	return {
+		path: path.join(__dirname, 'dist'),
+		filename: "[name].js"
+	};
+}
+
+// Rules config
+function rulesConfig() {
+	return [
+		{
+			test: /\.(js|jsx)$/,
+			exclude: /node_modules/,
+			use: {
+				loader: "babel-loader"
+			}
+		},
+		{
+			test: ${styleExtension},
+			use: [MiniCssExtractPlugin.loader,
+				'css-loader',
+				'${styleLoader}']
+		}
+	];
+}
+
+// Export config
 module.exports = function(env) {
 
 	return {
-		mode: 'production',
-		entry: './src/index.js',
-		output: {
-			path: path.resolve(__dirname, 'build'),
-			filename: 'index.js',
-			publicPath: '/build'
-		},
-		module: {
-			rules: [
-				{
-					test: /\.js$/,
-					use: [
-						{
-							loader: 'babel-loader'
-						}
-					]
-				},
-				{
-					test: /\.${styleExtension}/,
-					use: [{
-						loader: MiniCssExtractPlugin.loader,
-					},
-					{
-						loader: 'css-loader',
-						options: {
-							importLoaders: 1,
-							modules: {
-		            mode: 'local',
-		            localIdentName: '[name]__[local]--[hash:base64:5]',
-		          },
-						}
-					},
-					{
-						loader: '${styleLoader}'
-					}]
-				}
-			]
-		},
-		plugins: [
-			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify('production')
-			}),
-			new MiniCssExtractPlugin({
-				filename: "index.css",
-			}),
-			new OptimizeCssAssetsPlugin({
-				assetNameRegExp: /\.css$/g,
-				cssProcessor: require('cssnano'),
-				cssProcessorPluginOptions: {
-					preset: ['default',
-						{ discardComments: { removeAll: true } }],
-				},
-				canPrint: true
-			}),
-			new CompressionPlugin({
-				filename: "[path].gz[query]",
-				algorithm: "gzip",
-				test: /\.js$|\.css$|\.html$/,
-			})
-		],
-		watch: false,
-		devtool: "none"
+  	mode: "production",
+  	entry: "./src/index.js",
+  	output: outputConfig(),
+  	plugins: [htmlPlugin,
+			nodeEnvPlugin,
+			miniCssPlugin],
+  	module: {
+  		rules: rulesConfig()
+  	},
+		devtool: "source-map"
 	};
+
 };
 `;
 };

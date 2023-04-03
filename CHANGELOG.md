@@ -1,5 +1,27 @@
 # Change Log
 
+#### V2.0.0
+
+- Removed updateIndexHTML() from ReactBuild.
+- Removed updateIndexHTML() from ReactDeploy.
+- Removed S3BundleUpload.handler(true) from ReactDeploy.
+- Removed S3BundleUpload.js.
+- Removed s3-bundle-upload command from index.js.
+- Modified react component templates.
+- Removed ElasticBeanstalk support. (Not knowledgeable enough about AWS ElasticBeanstalk to keep and maintain this feature)
+- Updated and modernised ReactInit
+- Removed circular dependencies in src/config by merging ConfigGCP, ConfigGit, and ConfigS3 into Config
+- Updated third party packages.
+- Updated tabs in Log.js to be smaller so logs are easier to read.
+- Added project-lines command.
+- Added project-stats command.
+- Added Format.js utility.
+- Added new-line space after titles in Help.
+
+#### V1.4.0
+
+- ReactDeploy & ReactBuild no longer replace /build and replace the whole string instead.
+
 #### V1.3.0
 
 - Changed ReactDeploy to replace /build instead of ./build

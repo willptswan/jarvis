@@ -27,7 +27,7 @@ body {
 	font-weight: $font-weight-normal;
 }
 
-h1, h2, h3, h4, p, li, span {
+h1, h2, h3, h4, h5, p, li, span {
 	color: $grey-dark-colour;
 }
 
@@ -41,92 +41,29 @@ li {
   padding-bottom: 5px;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
 	padding: 0;
 	margin: 0;
 }
 
-h1, h4 {
-	font-weight: $font-weight-bold !important;
-}
-
-h2, h3 {
-	font-weight: $font-weight-normal !important;
-}
-
-h1 {
-	font-size: 50px;
-}
-
-h2 {
-	font-size: 35px;
-}
-
-h3, h4 {
-	font-size: 20px;
-}
-
 a {
 	text-decoration: none;
-	color: $primary-colour;
+	color: $primary-light-colour;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
 	-ms-transition: 0.3s;
   transition: 0.3s;
+}
+
+a:visited, a:hover, a:focus, a:active, a:focus {
+  text-decoration: none;
+  color: $primary-light-colour;
 }
 
 a:hover {
-	color: $primary-dark-colour;
+  text-decoration: none;
+	color: $primary-colour;
 }
 
-/* END TEXT DEFAULTS */
-
-/* START INPUTS */
-
-input, textarea {
-  border: $grey-light-colour 1px solid;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-input, textarea, button {
-  width: calc(100% - 22px);
-  font-size: 16px !important;
-  outline: none;
-  -webkit-border-radius: 4px;
- 	-moz-border-radius: 4px;
-	-ms-border-radius: 4px;
-	border-radius: 4px;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-	-ms-transition: 0.3s;
-  transition: 0.3s;
-}
-
-input {
-  height: 42px;
-}
-
-textarea {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-input:hover, input:focus, input:active, textarea:hover, textarea:focus, textarea:active {
-  border: $primary-light-colour 1px solid;
-}
-
-button {
-  width: 100% !important;
-  border: none;
-  background-color: $primary-colour;
-  color: $white-colour;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: $primary-light-colour;
-}
-
-/* END INPUTS */`;
+/* END TEXT DEFAULTS */`;
 };
