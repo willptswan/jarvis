@@ -1,6 +1,10 @@
 # Change Log
 
-#### V2.0.0
+## V2.0.1
+
+- ConfigGit.activate now sets main branch.
+
+## V2.0.0
 
 - Removed updateIndexHTML() from ReactBuild.
 - Removed updateIndexHTML() from ReactDeploy.
@@ -18,11 +22,11 @@
 - Added Format.js utility.
 - Added new-line space after titles in Help.
 
-#### V1.4.0
+## V1.4.0
 
 - ReactDeploy & ReactBuild no longer replace /build and replace the whole string instead.
 
-#### V1.3.0
+## V1.3.0
 
 - Changed ReactDeploy to replace /build instead of ./build
 - Changed IndexHTML template to use /build instead of ./build
@@ -31,7 +35,7 @@
 - Updated React templates so that babel works for async await
 - Removed <style> related bits from react/templates/app/Head.js
 
-#### V1.2.0
+## V1.2.0
 
 - Jarvis is now cross platform, all commands should now work on macOS, Windows, and Linux
 - site-open & site-search now use the default browser instead of Chrome
@@ -43,11 +47,11 @@
 - Added documentation-list command to display available documentation
 - Overhauled logging system, Jarvis now uses chalk
 
-#### V1.1.1
+## V1.1.1
 
 - Updated autoCheckUpdates setting default value to true
 
-#### V1.1.0
+## V1.1.0
 
 New:
 
@@ -84,29 +88,29 @@ Fixes:
 - Fixed issue with updating git configs where the ssh config file wouldn't update as expected
 
 
-#### V1.0.5
+## V1.0.5
 
 - Fixed git-clone success message
 
-#### V1.0.4
+## V1.0.4
 
 - Fixed wrong version number
 
-#### V1.0.3
+## V1.0.3
 
 - Fixed git-clone
 
-#### V1.0.2
+## V1.0.2
 
 - Fixed issues with deploying to Google App Engine (changes in react-init & react-deploy)
 - Added react-build command
 - Made activating newly added git configs optional
 - Added gcloud auth login step when adding new gcp configs
 
-#### V1.0.1
+## V1.0.1
 
 - Added some more near-future plans to README.md
 
-#### V1.0.0
+## V1.0.0
 
 - Initial upload

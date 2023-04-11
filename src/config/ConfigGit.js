@@ -233,6 +233,9 @@ exports.activate = async (configId = null, addOrigin = false) => {
 
 	}
 
+	// Set branch
+	await setBranch();
+
 	// Set local and global git config
 	await setGlobalLocalGitConfigs(config);
 
@@ -301,6 +304,25 @@ async function addGitRemoteOrigin(config) {
 	}
 
 }
+
+// Set branch
+async function setBranch() {
+
+	Log.spacer();
+	Log.info('Setting branch to main...');
+
+	const { stdout, stderr } = await exec('git branch -M main');
+
+	// Check for error
+	if (stderr) {
+		Log.error('Error setting branch');
+		throw stderr;
+	} else {
+		Log.success('Set branch to main');
+	}
+
+}
+
 
 // Check if in git directory
 async function inGitDirectory(abort) {
